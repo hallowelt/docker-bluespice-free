@@ -1,0 +1,10 @@
+worker_heartbeat_timeout: 300000
+
+logging:
+    level: info
+
+services:
+  - module: lib/index.js
+    entrypoint: apiServiceWorker
+    conf:
+        localsettings: ./localsettings.js
