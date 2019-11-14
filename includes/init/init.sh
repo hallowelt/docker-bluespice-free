@@ -1,9 +1,9 @@
 #!/bin/bash
 
 if [ -f "/opt/docker/.firstrun" ]; then
-    /usr/bin/wget -O /opt/docker/pkg/BlueSpice-free-3.1.zip https://bluespice.com/?ddownload=2698 --progress=bar --show-progress
+    /usr/bin/wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HalloWelt-dfd/3.1.1" -O /opt/docker/pkg/BlueSpice-free-3.1.1.zip https://bluespice.com/?ddownload=2737 --progress=bar --show-progress
     rm -Rf /data/www
-    unzip /opt/docker/pkg/BlueSpice-free-3.1.zip -d /data/www
+    unzip /opt/docker/pkg/BlueSpice-free-3.1.1.zip -d /data/www
     mv /data/www/bluespice /data/www/w
     mkdir -p /data/www/bluespice
     mv /data/www/w /data/www/bluespice
