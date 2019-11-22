@@ -50,4 +50,4 @@ Using SSL inside the Blue Spice docker image, `data` directory should be outside
 At the first boot of the container, we are sending a pingback to our servers for collecting of download statistics of docker image. This pingback is not collecting any data of your container or your current installation.
 You can also easily disable this pingback with an environment variable. `DISABLE_PINGBACK=yes`
 
-    docker run -d -p 80:80 -e DISABLE_PINGBACK=yes bluespice-free-image
+    docker run -d -p 80:80 -e DISABLE_PINGBACK=yes bluespice/bluespice-free
