@@ -53,7 +53,9 @@ RUN apt-get update; \
 	jetty9 \
 	npm\
 	nodejs \
+	ghostscript\
 	build-essential
+RUN 	/usr/bin/wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HalloWelt-dfd/3.1.1" -O /opt/docker/pkg/BlueSpice-free.zip https://bluespice.com/?ddownload=2737 --progress=bar --show-progress
 COPY ./includes/misc/mysql/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
 COPY ./includes/misc/apache/bluespice.conf /etc/apache2/sites-available/
 COPY ./includes/misc/apache/bluespice-ssl.conf /etc/apache2/sites-available/
@@ -75,13 +77,15 @@ RUN cd /usr/local; \
 COPY ./includes/misc/parsoid/parsoid.initd /etc/init.d/parsoid
 COPY ./includes/misc/parsoid/config.yaml /usr/local/parsoid/
 COPY ./includes/misc/parsoid/localsettings.js /usr/local/parsoid/
+COPY ./includes/misc/pingback/pingback.js /opt/docker/
 RUN chmod +x /etc/init.d/parsoid
 RUN cd /tmp; \
-	wget --no-check-certificate https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs926/ghostscript-9.26-linux-x86_64.tgz; \
-	tar xzf ghostscript-9.26-linux-x86_64.tgz; \
-	cp /tmp/ghostscript-9.26-linux-x86_64/gs-926-linux-x86_64 /usr/local/bin/gs; \
-	rm -rf /tmp/ghostscript-9.26-linux-x86_64; \
-	rm -f /tmp/ghostscript-9.26-linux-x86_64.tgz
+	wget --no-check-certificate https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2; \
+	tar xjf phantomjs-2.1.1-linux-x86_64.tar.bz2; \
+	mv /tmp/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin; \
+	chmod +x /usr/local/bin/phantomjs; \
+	rm -rf /tmp/phantomjs-2.1.1-linux-x86_64; \
+	rm -rf /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2
 RUN sed -i 's/^max_execution_time.*$/max_execution_time = 600/g' /etc/php/7.2/fpm/php.ini; \
 	sed -i 's/^post_max_size.*$/post_max_size = 128M/g' /etc/php/7.2/fpm/php.ini; \
 	sed -i 's/^upload_max_filesize.*$/upload_max_filesize = 128M/g' /etc/php/7.2/fpm/php.ini; \
