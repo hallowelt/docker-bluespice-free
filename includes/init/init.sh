@@ -8,7 +8,7 @@ if [ -f "/opt/docker/.firstrun" ]; then
     mkdir -p /data/www/bluespice
     mv /data/www/w /data/www/bluespice
     cp /data/www/bluespice/w/extensions/BlueSpiceUEModulePDF/webservices/BShtml2PDF.war /var/lib/jetty9/webapps/
-    /etc/init.d/elasticsearch start > /dev/null 2>&1
+    /etc/init.d/elasticsearch start > /dev/null 2>&1 &
     rm -Rf /data/mysql
     /usr/sbin/mysqld --initialize-insecure > /dev/null 2>&1
     /etc/init.d/mysql start > /dev/null 2>&1
@@ -30,23 +30,22 @@ if [ -f "/opt/docker/.firstrun" ]; then
         a2dissite bluespice > /dev/null 2>&1
         a2ensite bluespice-ssl > /dev/null 2>&1
     fi
-    /usr/bin/php /data/www/bluespice/w/maintenance/install.php --confpath="/data/www/bluespice/w" --dbname="bluespice" --dbuser=root --dbpass="" --dbserver="localhost" --lang=$bs_lang --pass="hallowelt" --scriptpath=/w --server="$bs_url" "BlueSpice" "WikiSysop" > /dev/null 2>&1
-    /usr/bin/php /data/www/bluespice/w/maintenance/update.php --quick > /dev/null 2>&1
-    /usr/bin/php /data/www/bluespice/w/maintenance/rebuildall.php --quick > /dev/null 2>&1
-    /usr/bin/php /data/www/bluespice/w/maintenance/createAndPromote.php --force --sysop WikiSysop hallowelt > /dev/null 2>&1
+    /usr/bin/php /data/www/bluespice/w/maintenance/install.php --confpath="/data/www/bluespice/w" --dbname="bluespice" --dbuser=root --dbpass="" --dbserver="localhost" --lang=$bs_lang --pass="hallowelt" --scriptpath=/w --server="$bs_url" "BlueSpice" "WikiSysop"  > /dev/null 2>&1
     ln -s /opt/docker/bluespice-data/settings.d/* /data/www/bluespice/w/settings.d/
     mkdir /opt/docker/bluespice-data/extensions/BluespiceFoundation/data
     cp -Rf /data/www/bluespice/w/extensions/BlueSpiceFoundation/config.template /opt/docker/bluespice-data/extensions/BluespiceFoundation/config
     ln -s /opt/docker/bluespice-data/extensions/BluespiceFoundation/data /data/www/bluespice/w/extensions/BlueSpiceFoundation/data
     ln -s /opt/docker/bluespice-data/extensions/BluespiceFoundation/config /data/www/bluespice/w/extensions/BlueSpiceFoundation/config
+    /usr/bin/php /data/www/bluespice/w/maintenance/update.php --quick  > /dev/null 2>&1
+    /usr/bin/php /data/www/bluespice/w/maintenance/rebuildall.php --quick  > /dev/null 2>&1 &
+    /usr/bin/php /data/www/bluespice/w/maintenance/createAndPromote.php --force --sysop WikiSysop hallowelt  > /dev/null 2>&1
     chown -Rf www-data:www-data /opt/docker/bluespice-data
     chown www-data:www-data /data/www/bluespice
-    /usr/bin/php /data/www/bluespice/w/maintenance/rebuildLocalisationCache.php > /dev/null 2>&1 &
-    /usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/initBackends.php --quick > /dev/null 2>&1
-    /usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/rebuildIndex.php --quick > /dev/null 2>&1
-    /usr/bin/php /data/www/bluespice/w/maintenance/runJobs.php > /dev/null 2>&1
+    /usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/initBackends.php --quick  > /dev/null 2>&1
+    /usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/rebuildIndex.php --quick  > /dev/null 2>&1
+    /usr/bin/php /data/www/bluespice/w/maintenance/runJobs.php  > /dev/null 2>&1
     rm -f /opt/docker/.firstrun
-    /opt/docker/setwikiperm.sh /data/www/bluespice/w
+    /opt/docker/setwikiperm.sh /data/www/bluespice/w  > /dev/null 2>&1 &
     /etc/init.d/mysql stop > /dev/null 2>&1 &
     /etc/init.d/elasticsearch stop > /dev/null 2>&1
 
@@ -59,7 +58,7 @@ if [ -f "/opt/docker/.firstrun" ]; then
 fi
 echo "STARTING SERVICES..."
 /etc/init.d/elasticsearch start > /dev/null 2>&1
-sleep 5
+sleep 3
 /etc/init.d/parsoid start > /dev/null 2>&1
 /etc/init.d/mysql start > /dev/null 2>&1
 /etc/init.d/jetty9 start > /dev/null 2>&1
