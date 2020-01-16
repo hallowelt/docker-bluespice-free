@@ -30,7 +30,9 @@ $wgVisualEditorAvailableNamespaces = [
 ];
 
 // Creating base64 encoded path
-$fullPath = $GLOBALS['wgServer'] . $GLOBALS['wgScriptPath'];
+$parsed_url = parse_url($GLOBALS['wgServer']);
+$fullPath = $parsed_url['scheme']."://".$parsed_url['host'].$parsed_url["path"].$GLOBALS['wgScriptPath'];
+
 $encFullPath = base64_encode( $fullPath );
 
 // Linking with Parsoid
