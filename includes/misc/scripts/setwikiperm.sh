@@ -1,10 +1,8 @@
 #!/bin/bash
-
 WWW_USER="www-data"
 WWW_GROUP="www-data"
-
-WWW_HOME=`eval echo ~$WWW_USER`
-WWW_CFG=$WWW_HOME/.config
+BSFILELIST="/tmp/bs_filelist.dat"
+BSDIRLIST="/tmp/bs_dirlist.dat"
 
 if [ $# -eq 0 ]; then
 	echo "You must enter the path of your MediaWiki installation."
@@ -13,15 +11,25 @@ elif [ ! -d $1 ]; then
 	echo "$1 does not exist or is no path."
 	exit
 fi
-
 PATH=`echo "$1" | sed -e 's#/$##'`
 
-/usr/bin/find $PATH -type d -exec /bin/chmod 755 {} \;
-/usr/bin/find $PATH -type f -exec /bin/chmod 644 {} \;
+/bin/chmod -Rf 755 $PATH
+/bin/chown -Rf root:root $PATH
 
-/bin/chown -R root:root $PATH
+/usr/bin/find $PATH -type f > $BSFILELIST
+/usr/bin/find $PATH -type d > $BSDIRLIST
 
-pathes=(
+while IFS= read -r files 
+do 
+	/bin/chmod -f 644 $files 
+done < "$BSFILELIST" &
+
+while IFS= read -r dirs 
+do 
+	/bin/chmod -f 755 $dirs
+done < "$BSDIRLIST" &
+
+paths=(
 	"$PATH/cache" \
 	"$PATH/images" \
 	"$PATH/_sf_archive" \
@@ -30,18 +38,11 @@ pathes=(
 	"$PATH/extensions/BlueSpiceFoundation/config" \
 	"$PATH/extensions/Widgets/compiled_templates" \
 )
-
-for i in "${pathes[@]}"; do
+for i in "${paths[@]}"; do
 	if [ -d $i ]; then
 		/bin/chown -R $WWW_USER:$WWW_GROUP $i
 	fi
 done
-
-if [ ! -d $WWW_CFG ]; then
-	/bin/mkdir $WWW_CFG
-fi
-
-/bin/chown -R $WWW_USER:$WWW_GROUP $WWW_CFG
 
 /usr/bin/find $PATH/extensions -iname 'create_pygmentize_bundle' -exec /bin/chmod +x {} \;
 /usr/bin/find $PATH/extensions -iname 'pygmentize' -exec /bin/chmod +x {} \;
