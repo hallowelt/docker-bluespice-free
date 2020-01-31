@@ -99,6 +99,8 @@ RUN sed -i 's/^max_execution_time.*$/max_execution_time = 600/g' /etc/php/7.2/fp
 	sed -i 's/^zlib.output_compression.*$/zlib.output_compression=On/g' /etc/php/7.2/fpm/php.ini; \
 	sed -i 's/^;zlib.output_compression_level.*$/zlib.output_compression_level=9/g' /etc/php/7.2/fpm/php.ini; \
 	sed -i 's/-m 64/-m 512/g' /etc/memcached.conf; \
+	sed -i 's/error_reporting =.*/error_reporting=E_ALL ^ E_NOTICE/g' /etc/php/7.2/fpm/php.ini; \
+	sed -i 's/error_reporting =.*/error_reporting=E_ALL ^ E_NOTICE/g' /etc/php/7.2/cli/php.ini; \
 	echo "JAVA_OPTIONS=\"\-Xms512m -Xmx1024m -Djetty.home=127.0.0.1\"" >> /etc/default/jetty9; \
 	mkdir /run/php; \
 	chown -Rf www-data:www-data /run/php
