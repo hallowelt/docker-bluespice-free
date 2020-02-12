@@ -21,7 +21,11 @@ PATH=`echo "$1" | sed -e 's#/$##'`
 
 while IFS= read -r files 
 do 
-	/bin/chmod -f 644 $files 
+	if [[ $files == *"pygmentize"* ]]; then
+		/bin/chmod +x $files
+	else 
+	   /bin/chmod -f 644 $files
+	fi
 done < "$BSFILELIST" &
 
 while IFS= read -r dirs 
@@ -45,5 +49,4 @@ for i in "${paths[@]}"; do
 done
 
 /usr/bin/find $PATH/extensions -iname 'create_pygmentize_bundle' -exec /bin/chmod +x {} \;
-/usr/bin/find $PATH/extensions -iname 'pygmentize' -exec /bin/chmod +x {} \;
 /usr/bin/find $PATH/extensions -name 'lua' -type f -exec /bin/chmod 755 {} \;

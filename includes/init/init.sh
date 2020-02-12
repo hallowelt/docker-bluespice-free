@@ -46,7 +46,7 @@ if [ -f "/opt/docker/.firstrun" ]; then
         /usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/rebuildIndex.php --quick  > /dev/null 2>&1
         /usr/bin/php /data/www/bluespice/w/maintenance/runJobs.php  > /dev/null 2>&1
         rm -f /opt/docker/.firstrun
-        /opt/docker/setwikiperm.sh /data/www/bluespice/w  > /dev/null 2>&1 &
+        /opt/docker/setwikiperm.sh /data/www/bluespice/w
         /etc/init.d/mysql stop > /dev/null 2>&1 &
         /etc/init.d/elasticsearch stop > /dev/null 2>&1
     else
@@ -73,7 +73,7 @@ if [ -f "/opt/docker/.firstrun" ]; then
         /usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/rebuildIndex.php --quick  > /dev/null 2>&1
         /usr/bin/php /data/www/bluespice/w/maintenance/runJobs.php  > /dev/null 2>&1
         rm -f /opt/docker/.firstrun
-        /opt/docker/setwikiperm.sh /data/www/bluespice/w  > /dev/null 2>&1 &
+        /opt/docker/setwikiperm.sh /data/www/bluespice/w
         /etc/init.d/mysql stop > /dev/null 2>&1 &
         /etc/init.d/elasticsearch stop > /dev/null 2>&1
     fi

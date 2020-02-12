@@ -1,2 +1,2 @@
-0 6 * * * www-data /usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceEchoConnector/maintenance/processBsEmailBatch.php
 */15 * * * * www-data /usr/bin/php /data/www/bluespice/w/maintenance/runJobs.php >/dev/null 2>&1
+0 * * * * root /opt/docker/setwikiperm.sh /data/www/bluespice/w
