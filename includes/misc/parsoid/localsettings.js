@@ -9,8 +9,8 @@ exports.setup = function(parsoidConfig) {
         parsoidConfig.dynamicConfig = function(domain) {
                 var baseUrl = Buffer.from( domain, 'base64').toString();
                 parsoidConfig.setMwApi({
-                        uri: baseUrl + '/api.php',
-                        domain: domain,
+                        uri: 'http://127.0.0.1/w/api.php',
+                        domain: 'bluespice',
                         strictSSL: false
                 });
         }

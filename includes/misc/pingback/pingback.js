@@ -4,7 +4,7 @@ page.customHeaders = {
 	"Accept-Language": 'en;q=0.8'
 };
 
-page.open('https://bluespice.com/docker/', function() {
+page.open('https://bluespice.com/de/docker/', function() {
     setTimeout(function() {
         page.render('/dev/null');
         phantom.exit();

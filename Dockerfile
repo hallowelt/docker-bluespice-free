@@ -55,7 +55,7 @@ RUN apt-get update; \
 	nodejs \
 	ghostscript\
 	build-essential
-RUN  /usr/bin/wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HalloWelt-dfd/3.1.3" -O /opt/docker/pkg/BlueSpice-free.zip https://bluespice.com/?ddownload=2769 --progress=bar --show-progress
+RUN  /usr/bin/wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HalloWelt-dfd/3.1.3" -O /opt/docker/pkg/BlueSpice-free.zip https://bluespice.com/filebase/bluespice-free-3-1-3/ --progress=bar --show-progress
 COPY ./includes/misc/mysql/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
 COPY ./includes/misc/apache/bluespice.conf /etc/apache2/sites-available/
 COPY ./includes/misc/apache/bluespice-ssl.conf /etc/apache2/sites-available/

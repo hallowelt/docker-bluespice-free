@@ -23,6 +23,7 @@ if [ -f "/opt/docker/.firstrun" ]; then
         if [ -f "/data/cert/ssl.cert" ] && [ -f "/data/cert/ssl.key" ]; then
             sed -i "s/{CERTFILE}/\/data\/cert\/ssl.cert/g" /etc/apache2/sites-available/bluespice-ssl.conf
             sed -i "s/{KEYFILE}/\/data\/cert\/ssl.key/g" /etc/apache2/sites-available/bluespice-ssl.conf
+            sed -i "s/http:/https:/g" /usr/local/parsoid/localsettings.js
             if [ -f "/data/cert/ssl.ca" ]; then
                 sed -i "s/{CAFILE}/\/data\/cert\/ssl.ca/g" /etc/apache2/sites-available/bluespice-ssl.conf
             else

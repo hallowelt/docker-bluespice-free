@@ -40,7 +40,7 @@ $wgVirtualRestConfig['modules']['parsoid'] = array(
         // URL to the Parsoid instance
         // Use port 8142 if you use the Debian package
         'url' => 'http://127.0.0.1:8000',
-        'domain' => $encFullPath,
+        'domain' => 'bluespice',
         'forwardCookies' => true
 );
 
