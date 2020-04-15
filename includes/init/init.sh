@@ -35,7 +35,7 @@ if [ -f "/opt/docker/.firstrun" ]; then
         /usr/bin/php /data/www/bluespice/w/maintenance/install.php --confpath="/data/www/bluespice/w" --dbname="bluespice" --dbuser=root --dbpass="" --dbserver="localhost" --lang=$bs_lang --pass="hallowelt" --scriptpath=/w --server="$bs_url" "BlueSpice" "WikiSysop"  > /dev/null 2>&1
         ln -s /opt/docker/bluespice-data/settings.d/* /data/www/bluespice/w/settings.d/
         mkdir /opt/docker/bluespice-data/extensions/BluespiceFoundation/data
-        cp -Rf /data/www/bluespice/w/extensions/BlueSpiceFoundation/config.template /opt/docker/bluespice-data/extensions/BluespiceFoundation/config
+        mkdir /opt/docker/bluespice-data/extensions/BluespiceFoundation/config
         ln -s /opt/docker/bluespice-data/extensions/BluespiceFoundation/data /data/www/bluespice/w/extensions/BlueSpiceFoundation/data
         ln -s /opt/docker/bluespice-data/extensions/BluespiceFoundation/config /data/www/bluespice/w/extensions/BlueSpiceFoundation/config
         /usr/bin/php /data/www/bluespice/w/maintenance/update.php --quick  > /dev/null 2>&1
