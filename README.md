@@ -1,4 +1,4 @@
-![Blue Spice Logo](https://bluespice.com/wp-content/uploads/2017/07/BlueSpice-logo_final-mediawiki-v2017.png)
+![Blue Spice Logo](https://en.wiki.bluespice.com/w/skins/BlueSpiceCalumma/resources/images/common/logo/bs3_logo.png)
 
 # How to use this image
 
