@@ -11,13 +11,13 @@ elif [ ! -d $1 ]; then
 	echo "$1 does not exist or is no path."
 	exit
 fi
-PATH=`echo "$1" | sed -e 's#/$##'`
+BSPATH=`echo "$1" | sed -e 's#/$##'`
 
-/bin/chmod -Rf 755 $PATH
-/bin/chown -Rf root:root $PATH
+/bin/chmod -Rf 755 $BSPATH
+/bin/chown -Rf root:root $BSPATH
 
-/usr/bin/find $PATH -type f > $BSFILELIST
-/usr/bin/find $PATH -type d > $BSDIRLIST
+/usr/bin/find $BSPATH -type f > $BSFILELIST
+/usr/bin/find $BSPATH -type d > $BSDIRLIST
 
 while IFS= read -r files 
 do 
@@ -34,13 +34,13 @@ do
 done < "$BSDIRLIST" &
 
 paths=(
-	"$PATH/cache" \
-	"$PATH/images" \
-	"$PATH/_sf_archive" \
-	"$PATH/_sf_instances" \
-	"$PATH/extensions/BlueSpiceFoundation/data" \
-	"$PATH/extensions/BlueSpiceFoundation/config" \
-	"$PATH/extensions/Widgets/compiled_templates" \
+	"$BSPATH/cache" \
+	"$BSPATH/images" \
+	"$BSPATH/_sf_archive" \
+	"$BSPATH/_sf_instances" \
+	"$BSPATH/extensions/BlueSpiceFoundation/data" \
+	"$BSPATH/extensions/BlueSpiceFoundation/config" \
+	"$BSPATH/extensions/Widgets/compiled_templates" \
 )
 for i in "${paths[@]}"; do
 	if [ -d $i ]; then
@@ -48,5 +48,5 @@ for i in "${paths[@]}"; do
 	fi
 done
 
-/usr/bin/find $PATH/extensions -iname 'create_pygmentize_bundle' -exec /bin/chmod +x {} \;
-/usr/bin/find $PATH/extensions -name 'lua' -type f -exec /bin/chmod 755 {} \;
+/usr/bin/find $BSPATH/extensions -iname 'create_pygmentize_bundle' -exec /bin/chmod +x {} \;
+/usr/bin/find $BSPATH/extensions -name 'lua' -type f -exec /bin/chmod 755 {} \;

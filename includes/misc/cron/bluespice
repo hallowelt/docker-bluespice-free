@@ -1,2 +1,2 @@
-*/15 * * * * www-data /usr/bin/php /data/www/bluespice/w/maintenance/runJobs.php >/dev/null 2>&1
+*/10 * * * * www-data /usr/bin/php /data/www/bluespice/w/maintenance/runJobs.php >/dev/null 2>&1
 0 * * * * root /opt/docker/setwikiperm.sh /data/www/bluespice/w

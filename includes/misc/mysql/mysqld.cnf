@@ -37,6 +37,7 @@ datadir         = /data/mysql
 tmpdir          = /tmp
 lc-messages-dir = /usr/share/mysql
 skip-external-locking
+skip-name-resolve
 #
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
@@ -44,7 +45,7 @@ bind-address            = 127.0.0.1
 #
 # * Fine Tuning
 #
-key_buffer_size         = 16M
+key_buffer_size         = 128M
 max_allowed_packet      = 16M
 thread_stack            = 192K
 thread_cache_size       = 8

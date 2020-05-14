@@ -16,7 +16,7 @@
     start)
           echo    starting parsoid
           cd /usr/local/parsoid
-          nohup node /usr/local/parsoid/bin/server.js > /var/log/parsoid.log 2>&1 &
+          nohup node /usr/local/parsoid/bin/server.js > /dev/null 2>&1 &
           $0 status
          ;;
     stop)
