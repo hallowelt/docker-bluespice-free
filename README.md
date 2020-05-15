@@ -32,7 +32,7 @@ Using SSL inside the Blue Spice docker image, `data` directory should be outside
 ## Login to Blue Spice
 
     username: WikiSysop
-    password: hallowelt
+    password: PleaseChangeMe
 
 # Which services are runnning?
 
