@@ -22,13 +22,12 @@ RUN sed -i 's/archive.ubuntu.com/de.archive.ubuntu.com/g' /etc/apt/sources.list 
  && chmod +x /usr/local/bin/phantomjs \
  && rm -rf /tmp/phantomjs-2.1.1-linux-x86_64 \
  && rm -rf /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
- && /usr/bin/wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HalloWelt-dfd/3.1.6" -O /opt/BlueSpice-free.zip https://bluespice.com/filebase/bluespice-free-3-1-6/
+ && /usr/bin/wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HalloWelt-dfd/3.1.6" -O /opt/BlueSpice-free.zip https://bluespice.com/filebase/bluespice-free-3-1-7/
 
 FROM ubuntu:18.04 as bsbase
 ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
-RUN sed -i 's/archive.ubuntu.com/de.archive.ubuntu.com/g' /etc/apt/sources.list \
- && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && apt-get update \	
  && apt-get -y dist-upgrade \
  && apt-get -y --no-install-recommends install \
