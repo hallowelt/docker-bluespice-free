@@ -22,7 +22,7 @@ RUN sed -i 's/archive.ubuntu.com/de.archive.ubuntu.com/g' /etc/apt/sources.list 
  && chmod +x /usr/local/bin/phantomjs \
  && rm -rf /tmp/phantomjs-2.1.1-linux-x86_64 \
  && rm -rf /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
- && /usr/bin/wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HalloWelt-dfd/3.1.8" -O /opt/BlueSpice-free.zip https://bluespice.com/filebase/bluespice-free-3-1-8/
+ && /usr/bin/wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HalloWelt-dfd/3.1.8" -O /opt/BlueSpice-free.zip https://bluespice.com/filebase/bluespice-free-3-1-9/
 
 FROM ubuntu:18.04 as bsbase
 ENV TZ=UTC
