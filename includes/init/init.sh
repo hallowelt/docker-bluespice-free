@@ -128,7 +128,6 @@ echo "System services are starting..."
 /etc/init.d/memcached start > /dev/null 2>&1
 /etc/init.d/php7.2-fpm start > /dev/null 2>&1
 /etc/init.d/cron start > /dev/null 2>&1
-sleep 5
 /etc/init.d/nginx start > /dev/null 2>&1
 echo "READY!"
 sleep infinity
