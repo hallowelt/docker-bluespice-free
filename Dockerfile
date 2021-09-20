@@ -31,7 +31,7 @@ RUN apt-get -y --no-install-recommends install \
  && chmod +x /usr/local/bin/phantomjs \
  && rm -rf /tmp/phantomjs-2.1.1-linux-x86_64 \
  && rm -rf /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
- && /usr/bin/wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HalloWelt/1.0" -O /opt/BlueSpice-free.zip https://bluespice.com/filebase/bluespice-free-3-2-5/
+ && /usr/bin/wget --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HalloWelt/1.0" -O /opt/BlueSpice-free.zip https://bluespice.com/filebase/bluespice-free-3-2-6/
 
 FROM main as bsbase
 ENV TZ=UTC
