@@ -50,13 +50,11 @@ if [ -f "/opt/docker/.firstrun" ]; then
         cp -Rf /data/www/bluespice/w/extensions/BlueSpiceFoundation/config.template/* /data/www/bluespice/w/extensions/BlueSpiceFoundation/config/ > /dev/null 2>&1
         cp -Rf /data/www/bluespice/w/extensions/BlueSpiceFoundation/data.template/* /data/www/bluespice/w/extensions/BlueSpiceFoundation/data/ > /dev/null 2>&1
         /usr/bin/php /data/www/bluespice/w/maintenance/update.php --quick > /dev/null 2>&1
-        /usr/bin/php /data/www/bluespice/w/maintenance/rebuildall.php --quick > /dev/null 2>&1
-        /usr/bin/php /data/www/bluespice/w/maintenance/createAndPromote.php --force --sysop "$bs_user" "$bs_password" > /dev/null 2>&1
+        /usr/bin/php /data/www/bluespice/w/maintenance/createAndPromote.php --force --sysop "$bs_user" "$bs_password" > /dev/null 2>&1 &
         chown -Rf www-data:www-data /opt/docker/bluespice-data
         chown www-data:www-data /data/www/bluespice
         /usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/initBackends.php --quick > /dev/null 2>&1
         /usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/rebuildIndex.php --quick > /dev/null 2>&1
-        /usr/bin/php /data/www/bluespice/w/maintenance/runJobs.php  > /dev/null 2>&1 &
         rm -f /opt/docker/.firstrun
         echo "Setting permissions..."
         /opt/docker/setwikiperm.sh /data/www/bluespice/w
@@ -111,12 +109,13 @@ if [ -f "/opt/docker/.firstrun" ]; then
         /etc/init.d/elasticsearch stop > /dev/null 2>&1
     fi
 
-    
-    # Pingback
+
+     # Pingback
     if [[ $DISABLE_PINGBACK != "yes" ]];
     then
-        /usr/local/bin/phantomjs --ssl-protocol=any /opt/docker/pingback.js
+        /usr/local/bin/phantomjs --ignore-ssl-errors=true --ssl-protocol=any /opt/docker/pingback.js
     fi
+    
 fi
 echo "System services are starting..."
 /etc/init.d/elasticsearch start > /dev/null 2>&1
@@ -124,8 +123,9 @@ echo "System services are starting..."
 /etc/init.d/mysql start > /dev/null 2>&1
 /etc/init.d/jetty9 start > /dev/null 2>&1
 /etc/init.d/memcached start > /dev/null 2>&1
-/etc/init.d/php7.3-fpm start > /dev/null 2>&1
+/etc/init.d/php7.4-fpm start > /dev/null 2>&1
 /etc/init.d/cron start > /dev/null 2>&1
 /etc/init.d/nginx start > /dev/null 2>&1
 echo "READY!"
+/usr/bin/php /data/www/bluespice/w/maintenance/runJobs.php --memory-limit=max  > /dev/null 2>&1 &
 sleep infinity

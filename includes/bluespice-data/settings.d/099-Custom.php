@@ -24,12 +24,4 @@ $wgVisualEditorAvailableNamespaces = [
     102 => true,
     "_merge_strategy" => "array_plus"
 ];
-$parsed_url = parse_url($GLOBALS['wgServer']);
-$fullPath = $parsed_url['scheme']."://".$parsed_url['host'].$parsed_url["path"].$GLOBALS['wgScriptPath'];
-$encFullPath = base64_encode( $fullPath );
-$wgVirtualRestConfig['modules']['parsoid'] = array(
-        'url' => 'http://127.0.0.1:8000',
-        'domain' => 'bluespice',
-        'forwardCookies' => true
-);
 $wgVisualEditorEnableWikitext = true;
