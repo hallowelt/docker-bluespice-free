@@ -25,3 +25,9 @@ $wgVisualEditorAvailableNamespaces = [
     "_merge_strategy" => "array_plus"
 ];
 $wgVisualEditorEnableWikitext = true;
+
+wfLoadExtension( 'Parsoid', "$IP/vendor/wikimedia/parsoid/extension.json" );
+$wgVirtualRestConfig['modules']['parsoid'] = array(
+        'url' => 'http://localhost:10080/w/rest.php/',
+        'forwardCookies' => true
+);
