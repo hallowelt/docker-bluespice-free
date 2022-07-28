@@ -12,7 +12,7 @@ RUN apt-get update \
 FROM main as bsbuild
 ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
-ADD https://bluespice.com/filebase/bluespice-free-4-1-4/ /opt/BlueSpice-free.zip
+ADD https://bluespice.com/filebase/bluespice-free-4-2-0/ /opt/BlueSpice-free.zip
 ADD https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
 RUN apt-get -y --no-install-recommends install \
  bzip2 \
