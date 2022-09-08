@@ -55,6 +55,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 	imagemagick \
 	poppler-utils \
 	ghostscript \
+	vim \
  && mkdir -p /opt/docker/pkg \
  && cd /tmp \
  && dpkg -i /tmp/elasticsearch-oss-6.8.23.deb \
