@@ -1,0 +1,20 @@
+FROM ubuntu
+COPY ./includes/init/init.py /opt/docker/
+RUN chmod a+x /opt/docker/*.py
+RUN apt-get update && apt-get -y --no-install-recommends install python3
+ARG WIKI_INSTALL_DIR
+ARG WIKI_BACKUP_LIMIT
+ARG DISABLE_PINGBACK
+ARG BS_URL
+ARG BS_LANG
+ARG BS_USER
+ARG BS_PASSWORD
+
+ENV WIKI_INSTALL_DIR $WIKI_INSTALL_DIR
+ENV WIKI_BACKUP_LIMIT $WIKI_BACKUP_LIMIT
+ENV DISABLE_PINGBACK $DISABLE_PINGBACK
+ENV BS_URL $BS_URL
+ENV BS_LANG $BS_LANG
+ENV BS_USER $BS_USER
+ENV BS_PASSWORD $BS_PASSWORD
+ENTRYPOINT /opt/docker/init.py && tail -f /dev/null

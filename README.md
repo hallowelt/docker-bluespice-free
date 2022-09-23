@@ -51,3 +51,19 @@ At the first boot of the container, we are sending a pingback to our servers for
 You can also easily disable this pingback with an environment variable. `DISABLE_PINGBACK=yes`
 
     docker run -d -p 80:80 -e DISABLE_PINGBACK=yes bluespice/bluespice-free
+
+
+## Run from helper script
+To run the bluespice wiki from helper script run:
+```
+pip3 install -r requirements.txt && sudo ./install -bs
+```
+## Help
+To see all the options run:
+```
+./install -h
+```
+or
+```
+./install --help
+```
