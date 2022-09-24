@@ -91,10 +91,6 @@ def main():
         docker_clean(os.getenv("DATADIR"))
 
     if args.start_container:
-        # subprocess.call(
-        #     f'docker run -d -p {os.getenv("HTTP_PORT")}:80 -p {os.getenv("HTTPS_PORT")}:443 -v {os.getenv("WIKI_INSTALL_DIR")}:/data {os.getenv("IMAGE_NAME")}:{os.getenv("IMAGE_TAG")}',
-        #     shell=True,
-        # )
         docker_run_cmd = f'docker run \
                 -e WIKI_INSTALL_DIR="{os.getenv("WIKI_INSTALL_DIR")}" \
                 -e WIKI_BACKUP_LIMIT="{os.getenv("WIKI_BACKUP_LIMIT")}" \
@@ -103,14 +99,10 @@ def main():
                 -e BS_LANG="{os.getenv("BS_LANG")}" \
                 -e BS_USER="{os.getenv("BS_USER")}" \
                 -e BS_PASSWORD={os.getenv("BS_PASSWORD")} \
-                -t "{os.getenv("IMAGE_NAME")}:{os.getenv("IMAGE_TAG")}" \
                 -p {os.getenv("HTTP_PORT")}:80 \
                 -p {os.getenv("HTTPS_PORT")}:443 \
                 -v {os.getenv("WIKI_INSTALL_DIR")}:/data \
-                -d'
-        # docker_run_cmd = f'docker run -e WIKI_INSTALL_DIR="{os.getenv("WIKI_INSTALL_DIR")}" -e WIKI_BACKUP_LIMIT="{os.getenv("WIKI_BACKUP_LIMIT")}" -e DISABLE_PINGBACK="{os.getenv("DISABLE_PINGBACK")}" -e BS_URL="{os.getenv("BS_URL")}" -e BS_LANG="{os.getenv("BS_LANG")}" -e BS_USER="{os.getenv("BS_USER")}" -e BS_PASSWORD="{os.getenv("BS_PASSWORD")} -t "{os.getenv("IMAGE_NAME")}:{os.getenv("IMAGE_TAG")}" -p {os.getenv("HTTP_PORT")}:80 -p {os.getenv("HTTPS_PORT")}:443 -v {os.getenv("WIKI_INSTALL_DIR")}:/data -d'
-        # docker_run_cmd = f'docker run -d {os.getenv("IMAGE_NAME")}:{os.getenv("IMAGE_TAG")} -p {os.getenv("HTTP_PORT")}:80 -p {os.getenv("HTTPS_PORT")}:443 -v {os.getenv("WIKI_INSTALL_DIR")}:/data -e WIKI_INSTALL_DIR={os.getenv("WIKI_INSTALL_DIR")} -e WIKI_BACKUP_LIMIT={os.getenv("WIKI_BACKUP_LIMIT")} -e DISABLE_PINGBACK={os.getenv("DISABLE_PINGBACK")} -e BS_URL={os.getenv("BS_URL")} -e BS_LANG={os.getenv("BS_LANG")} -e BS_USER={os.getenv("BS_USER")} -e BS_PASSWORD={os.getenv("BS_PASSWORD")}'
-        # docker_run_cmd = f'docker run -d {os.getenv("IMAGE_NAME")}:{os.getenv("IMAGE_TAG")} -p {os.getenv("HTTP_PORT")}:80 -p {os.getenv("HTTPS_PORT")}:443 -v {os.getenv("WIKI_INSTALL_DIR")}:/data -e WIKI_INSTALL_DIR={os.getenv("WIKI_INSTALL_DIR")} -e WIKI_BACKUP_LIMIT={os.getenv("WIKI_BACKUP_LIMIT")} -e DISABLE_PINGBACK={os.getenv("DISABLE_PINGBACK")} -e BS_URL={os.getenv("BS_URL")} -e BS_LANG={os.getenv("BS_LANG")} -e BS_USER={os.getenv("BS_USER")} -e BS_PASSWORD={os.getenv("BS_PASSWORD")}'
+                -d "{os.getenv("IMAGE_NAME")}:{os.getenv("IMAGE_TAG")}"'
         print(
             f'starting docker container: {os.getenv("IMAGE_NAME")}:{os.getenv("IMAGE_TAG")}'
         )
@@ -141,3 +133,7 @@ if len(sys.argv) > 1:
 else:
     print("no options provided")
     subprocess.call(f"./install -h", shell=True)
+
+
+
+# docker build . -t bslocal/bsfree:latest && docker run -d bslocal/bsfree:latest -p 80:80 -p 443:443 -v /home/jonty/Developer/wiki:/data -e WIKI_INSTALL_DIR=/home/jonty/Developer/wiki -e WIKI_BACKUP_LIMIT=5 -e DISABLE_PINGBACK=yes -e BS_URL=http://localhost -e BS_LANG=en -e BS_USER=WikiSysop -e BS_PASSWORD=PleaseChangeMe

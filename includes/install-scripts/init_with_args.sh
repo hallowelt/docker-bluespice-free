@@ -1,20 +1,12 @@
 #!/bin/bash
 
-# WIKI_INSTALL_DIR=$1
-# WIKI_BACKUP_LIMIT=$2
-# DISABLE_PINGBACK=$3
-# BS_URL=$4
-# BS_LANG=$5
-# BS_USER=$6
-# BS_PASSWORD=$7
-
-echo WIKI_INSTALL_DIR: ${WIKI_INSTALL_DIR} >>/dev/logs 2>&1
-echo WIKI_BACKUP_LIMIT: ${WIKI_BACKUP_LIMIT} >>/dev/logs 2>&1
-echo DISABLE_PINGBACK: ${DISABLE_PINGBACK} >>/dev/logs 2>&1
-echo BS_LANG: ${BS_LANG} >>/dev/logs 2>&1
-echo BS_URL: ${BS_URL} >>/dev/logs 2>&1
-echo BS_USER: ${BS_USER} >>/dev/logs 2>&1
-echo BS_PASSWORD: ${BS_PASSWORD} >>/dev/logs 2>&1
+# echo WIKI_INSTALL_DIR: ${WIKI_INSTALL_DIR} >>/dev/logs 2>&1
+# echo WIKI_BACKUP_LIMIT: ${WIKI_BACKUP_LIMIT} >>/dev/logs 2>&1
+# echo DISABLE_PINGBACK: ${DISABLE_PINGBACK} >>/dev/logs 2>&1
+# echo BS_LANG: ${BS_LANG} >>/dev/logs 2>&1
+# echo BS_URL: ${BS_URL} >>/dev/logs 2>&1
+# echo BS_USER: ${BS_USER} >>/dev/logs 2>&1
+# echo BS_PASSWORD: ${BS_PASSWORD} >>/dev/logs 2>&1
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 FRESH_INSTALL_SCRIPT=$SCRIPT_DIR/fresh-install.sh
@@ -38,7 +30,7 @@ if [ -f "/opt/docker/.firstrun" ]; then
         echo "Old installation detected! Moving old installation to /data/www/backups/$date"
         mkdir -p /data/www/backups/
         mv /data/www/bluespice "/data/www/backups/$date"
-        python3 $SCRIPT_DIR/backup-wiki-data.py --wiki_backup_limit $WIKI_BACKUP_LIMIT 2>&1 >/dev/logs
+        python3 $SCRIPT_DIR/backup-wiki-data.py --wiki_backup_limit $WIKI_BACKUP_LIMIT >>/dev/logs 2>&1
         source $DOWNLOAD_WIKI_SCRIPT
         source $RESTORE_DATA_SCRIPT
         chown -Rf mysql:mysql /data/mysql
