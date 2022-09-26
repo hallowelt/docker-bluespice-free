@@ -34,7 +34,7 @@ parser = argparse.ArgumentParser()
 # )
 parser.add_argument(
     "-s",
-    "--start_container",
+    "--start",
     action="store_true",
     help="starts the bluespice wiki container",
 )
@@ -94,7 +94,7 @@ def main():
     #     docker_down(remove_orphans=True)
     #     docker_clean(os.getenv("DATADIR"))
 
-    if args.start_container:
+    if args.start:
         docker_run_cmd = f'docker run \
                 -e WIKI_INSTALL_DIR="{os.getenv("WIKI_INSTALL_DIR")}" \
                 -e WIKI_BACKUP_LIMIT="{os.getenv("WIKI_BACKUP_LIMIT")}" \
@@ -136,7 +136,7 @@ if len(sys.argv) > 1:
     main()
 else:
     print("no options provided")
-    subprocess.call(f"./bluespice -h", shell=True)
+    subprocess.call(f"./{os.path.basename(__file__)} -h", shell=True)
 
 
 # docker build . -t bslocal/bsfree:latest && docker run -d bslocal/bsfree:latest -p 80:80 -p 443:443 -v /home/jonty/Developer/wiki:/data -e WIKI_INSTALL_DIR=/home/jonty/Developer/wiki -e WIKI_BACKUP_LIMIT=5 -e DISABLE_PINGBACK=yes -e BS_URL=http://localhost -e BS_LANG=en -e BS_USER=WikiSysop -e BS_PASSWORD=PleaseChangeMe

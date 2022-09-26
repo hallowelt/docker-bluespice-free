@@ -6,4 +6,3 @@ __init__.py*
 bs_venv/
 *.bz2
 .vscode/
-wiki

@@ -1,41 +1,95 @@
-![Blue Spice Logo](https://en.wiki.bluespice.com/w/skins/BlueSpiceCalumma/resources/images/common/logo/bs3_logo.png)
+<p align="center">
+  <a href="https://example.com/">
+    <img src="https://bluespice.com/app/media/2020/02/cropped-bluespice-fav.png" alt="Logo" width=72 height=72>
+  </a>
 
-# How to use this image
+  <h3 align="center">BlueSpice</h3>
+  <h6 align="center">Dockerized BlueSpice Free Edition v3</h6>
 
-## Introduction
-This is an all in one image for Blue Spice. All required services are preconfigured.
+  <p align="center">
+    BlueSpice free is an entry-level, no-cost version of BlueSpice pro. It sits on top of an existing MediaWiki without interfering with its architecture, adds lots of user-friendly features and supplements it with a multitude of helpful functions for teams and small businesses.
+    <br>
+    <a href="https://github.com/hallowelt/docker-bluespice-free/issues/new?template=bug.md">Report bug</a>
+    ·
+    <a href="https://github.com/hallowelt/docker-bluespice-free/issues/new?template=feature.md&labels=feature">Request feature</a>
+    ·
+    <a href="https://bluespice.com/products/bluespice-free/">Learn more</a>
+  </p>
+</p>
 
-## Basic usage
-Example for quick start. Blue Spice will be accessible only in localhost.
+---
 
-    docker run -d -p 80:80 bluespice/bluespice-free
-## Keep your data outside of the docker
+## Table of contents
+- [Table of contents](#table-of-contents)
+- [Quick start](#quick-start)
+- [Version Info](#version-info)
+- [Requirements](#requirements)
+- [Configuration](#configuration)
+- [Activating SSL](#activating-ssl)
+- [Which services are runnning?](#which-services-are-runnning)
+- [Bluespice CLI](#bluespice-cli)
 
-    docker run -d -p 80:80 -v {/my/data/folder}:/data bluespice/bluespice-free
-## Setting Blue Spice language and URL
+---
 
-	docker run -d -p 80:80 -v {/my/data/folder}:/data -e "bs_lang=en" -e "bs_url=http://www.domain.com" bluespice/bluespice-free
+## Quick start
+Quickly setup bluespice mediawiki on your system using followng steps:
+- Go inside the docker-bluespice-free directory after cloning it:
+  - `cd docker-bluespice-free`
+- Setup [Configuration](#configuration) or keep the default configuration using:
+  - `cp example.env .env`
+- [Activate SSL](#activating-ssl) (optional)
+- Setup virtual environment and install dependencies:
+  - `make run`
+- Build and start docker container:
+  - `./bluespice -bs`
+- After this the bluespice docker should start spinning up and install all the required dependencies. This could take some time (about 10 minutes). After that open your browser and go to `localhost`.
+- Enter the username: `WikiSysop` and password: `PleaseChangeMe` to login.
+
+---
+
+## Version Info
+This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespice-free</a> is currently based on [BlueSpice 3](https://en.wikipedia.org/wiki/BlueSpice_MediaWiki#Versions)
+
+---
+
+## Requirements
+- python >= 3.10
+- pip >= 22.0
+- docker >= 20.10
+
+## Configuration
+| name                            | default value    | description                                                    |
+|---------------------------------|------------------|----------------------------------------------------------------|
+| `BS_LANG`                       | en               | bluespice language                                             |
+| `BS_URL`                        | http://localhost | url on which bluespice will be served                          |
+| `BS_USER`                       | WikiSysop        | admin username                                                 |
+| `BS_PASSWORD`                   | PleaseChangeMe   | adming password                                                |
+| `HTTP_PORT`                     | 80               | server http port                                               |
+| `HTTPS_PORT`                    | 443              | server https port                                              |
+| `IMAGE_NAME`                    | bslocal/bsfree   | docker image name to be created                                |
+| `IMAGE_TAG`                     | 3.x.x            | docker image tag                                               |
+| `DISABLE_PINGBACK`              | yes              | sends pingback to the bluespice servers                        |
+| `WIKI_INSTALL_DIR`<sup>1</sup>  | ~/wiki           | dir where bluespice files will be stored                       |
+| `WIKI_BACKUP_LIMIT`<sup>2</sup> | 5                | max limit of backups, after this the  oldest backup is deleted |
+
+*1: During first boot, a pingback is sent to our servers for collecting download statistics of the docker image. This pingback is not collecting any data of your container or your current installation. You can also easily disable this pingback by setting it `no`.*
+
+*2: If `WIKI_INSTALL_DIR` path is changed and if this directory is inside the current projcet folder (docker-bluespice-free/) then also add the path in [.dockerignore](.dockerignore) and [.gitignore](.gitignore).*
+
+---
+
 ## Activating SSL
-Using SSL inside the Blue Spice docker image, `data` directory should be outside of the docker. Create a folder named `cert` inside your data folder. Inside this folder, certificates must be named like:
+Create a folder named `cert` inside your data folder. Inside this folder, certificates must be named like:
 
  - `ssl.cert` (SSL certificate.  *mandatory*)
  - `ssl.key` (Private key of `ssl.cert`. *mandatory*)
  - `ssl.ca` (3rd party CA certs for `ssl.cert`.  *optional*)
- 
- If everything is ready for first run, just run following command:
- 
 
-    docker run -d -p 80:80 -p 443:443 -v {/my/data/folder}:/data -e "bs_lang=en" -e "bs_url=https://www.domain.com" bluespice/bluespice-free
+After adding the certificates, also update the `BS_URL` config to `https`. Restart the bluespice container using `./bluespice --restart` or continue with [Quick start](#quick-start).
 
-*Note: Port 443 includes the command and also `$bs_url` schema changed to `https`*
+---
 
-## Login to Blue Spice
-
-    username: WikiSysop
-    password: PleaseChangeMe
-
-# Which services are runnning?
-
+## Which services are runnning?
  - Apache
  - PHP-FPM
  - Jetty9
@@ -45,25 +99,17 @@ Using SSL inside the Blue Spice docker image, `data` directory should be outside
  - crond
  - memcached
 
-# Pingback
+---
 
-At the first boot of the container, we are sending a pingback to our servers for collecting download statistics of the docker image. This pingback is not collecting any data of your container or your current installation.
-You can also easily disable this pingback with an environment variable. `DISABLE_PINGBACK=yes`
+## Bluespice CLI
 
-    docker run -d -p 80:80 -e DISABLE_PINGBACK=yes bluespice/bluespice-free
+    usage: ./bluespice [-h] [-s] [-d] [-b]
 
+    options:
+    
+    -h, --help            show this help message and exit
+    -s, --start           starts the bluespice wiki container
+    -d, --clean_dangling  cleans the docker of all the dangling images
+    -b, --build           builds the bluespice wiki container
 
-## Run from helper script
-To run the bluespice wiki from helper script run:
-```
-pip3 install -r requirements.txt && sudo ./install -bs
-```
-## Help
-To see all the options run:
-```
-./install -h
-```
-or
-```
-./install --help
-```
+---

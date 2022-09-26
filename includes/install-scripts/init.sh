@@ -1,13 +1,5 @@
 #!/bin/bash
 
-# echo WIKI_INSTALL_DIR: ${WIKI_INSTALL_DIR} >>/dev/logs 2>&1
-# echo WIKI_BACKUP_LIMIT: ${WIKI_BACKUP_LIMIT} >>/dev/logs 2>&1
-# echo DISABLE_PINGBACK: ${DISABLE_PINGBACK} >>/dev/logs 2>&1
-# echo BS_LANG: ${BS_LANG} >>/dev/logs 2>&1
-# echo BS_URL: ${BS_URL} >>/dev/logs 2>&1
-# echo BS_USER: ${BS_USER} >>/dev/logs 2>&1
-# echo BS_PASSWORD: ${BS_PASSWORD} >>/dev/logs 2>&1
-
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 FRESH_INSTALL_SCRIPT=$SCRIPT_DIR/fresh-install.sh
 RESTORE_DATA_SCRIPT=$SCRIPT_DIR/restore-wiki-data.sh

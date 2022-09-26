@@ -99,6 +99,4 @@ COPY ./includes/misc/pingback/pingback.js /opt/docker/
 COPY --from=bsbuild /usr/local/bin/phantomjs /usr/local/bin
 RUN echo "JAVA_OPTIONS=\"\-Xms512m -Xmx1024m -Djetty.home=127.0.0.1\"" >> /etc/default/jetty9; \
 	chown -Rf www-data:www-data /run/php
-# EXPOSE 80 443
-# ENTRYPOINT /opt/docker/init.sh
 ENTRYPOINT /opt/docker/install-scripts/init.sh

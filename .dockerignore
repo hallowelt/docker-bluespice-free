@@ -1,5 +1,5 @@
 .vscode
 runner
 bs_venv/
-# # change this if WIKI_INSTALL_DIR is changed in the .gitignore file
-wiki
+
+# add WIKI_INSTALL_DIR's value here also if this folder is inside the project directory
