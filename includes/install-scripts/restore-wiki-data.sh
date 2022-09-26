@@ -2,7 +2,7 @@
 
 rm -Rf /data/www/bluespice/w/images
 echo "Importing the data from the old installation"
-cp -Rf "/data/www/backups/$date/w/images" /data/www/bluespice/w/images >>/dev/logs 2>&1
+cp -Rf /data/www/backups/$date/w/images /data/www/bluespice/w/images >>/dev/logs 2>&1
 
 echo "copying bluespice foundation data and config folders..." >>/dev/logs 2>&1
 mkdir -p /data/www/bluespice/w/extensions/BlueSpiceFoundation/data >>/dev/logs 2>&1
@@ -13,8 +13,14 @@ cp -r /data/www/backups/$date/w/extensions/BlueSpiceFoundation/config/. /data/ww
 cp -r /data/www/backups/$date/w/extensions/BlueSpiceFoundation/data/. /data/www/bluespice/w/extensions/BlueSpiceFoundation/data/ >>/dev/logs 2>&1
 echo "copied bluespice foundation data and config folders" >>/dev/logs 2>&1
 
-cp -f "/data/www/backups/$date/w/LocalSettings.php" /data/www/bluespice/w/ >>/dev/logs 2>&1
+cp -f /data/www/backups/$date/w/LocalSettings.php /data/www/bluespice/w/ >>/dev/logs 2>&1
 ln -s /opt/docker/bluespice-data/settings.d/* /data/www/bluespice/w/settings.d/ >>/dev/logs 2>&1
+
+# restore local settings from old wiki
+echo "copying local settings from old wiki" >>/dev/logs 2>&1
+cp -f data/www/backups/$date/w/settings.d/*.local.php /data/www/bluespice/w/settings.d/ >>/dev/logs 2>&1
+echo "copied local settings from old wiki" >>/dev/logs 2>&1
+
 /usr/bin/php /data/www/bluespice/w/maintenance/update.php --quick >>/dev/logs 2>&1
 /usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/initBackends.php --quick >>/dev/logs 2>&1
 /usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/rebuildIndex.php --quick >>/dev/logs 2>&1

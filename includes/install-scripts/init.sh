@@ -28,16 +28,18 @@ if [ -f "/opt/docker/.firstrun" ]; then
     # else handle reinstall
     else
         echo "Old installation detected! Moving old installation to /data/www/backups/$date"
-        mkdir -p /data/www/backups/
-        mv /data/www/bluespice "/data/www/backups/$date"
-        python3 $SCRIPT_DIR/backup-wiki-data.py --wiki_backup_limit $WIKI_BACKUP_LIMIT >>/dev/logs 2>&1
-        source $DOWNLOAD_WIKI_SCRIPT
-        source $RESTORE_DATA_SCRIPT
+        /etc/init.d/elasticsearch start >> /dev/logs 2>&1
+        /etc/init.d/memcached start >> /dev/logs 2>&1
+        sleep 20
         chown -Rf mysql:mysql /data/mysql
         rm -Rf /var/lib/mysql >>/dev/logs 2>&1
         ln -s /data/mysql /var/lib/mysql >>/dev/logs 2>&1
-        source $START_SERVICES_SCRIPT
-        sleep 20
+        /etc/init.d/mysql start >> /dev/logs 2>&1
+        mkdir -p /data/www/backups/
+        mv /data/www/bluespice /data/www/backups/$date
+        python3 $SCRIPT_DIR/backup-wiki-data.py --wiki_backup_limit $WIKI_BACKUP_LIMIT >>/dev/logs 2>&1
+        source $DOWNLOAD_WIKI_SCRIPT
+        source $RESTORE_DATA_SCRIPT
     fi
     source $CLEANUP_SCRIPT
 fi

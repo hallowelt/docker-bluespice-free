@@ -14,6 +14,7 @@ ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
 ADD https://bluespice.com/filebase/bluespice-free-4-2/ /opt/BlueSpice-free.zip
 ADD https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
+# COPY ./phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
 RUN apt-get -y --no-install-recommends install \
  bzip2 \
  && cd /tmp \
@@ -100,4 +101,4 @@ RUN echo "JAVA_OPTIONS=\"\-Xms512m -Xmx1024m -Djetty.home=127.0.0.1\"" >> /etc/d
 	chown -Rf www-data:www-data /run/php
 # EXPOSE 80 443
 # ENTRYPOINT /opt/docker/init.sh
-ENTRYPOINT /opt/docker/install-scripts/init_with_args.sh
+ENTRYPOINT /opt/docker/install-scripts/init.sh

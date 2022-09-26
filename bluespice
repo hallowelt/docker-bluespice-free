@@ -14,54 +14,55 @@ from dotenv import load_dotenv
 load_dotenv()
 
 parser = argparse.ArgumentParser()
-parser.add_argument(
-    "-r",
-    "--restart_container",
-    action="store_true",
-    help="restarts/starts all the test systems containers",
-)
-parser.add_argument(
-    "-R",
-    "--hard_restart_containers",
-    action="store_true",
-    help="deletes all the attached volume data and restarts/starts all the test systems containers",
-)
-parser.add_argument(
-    "-z",
-    "--stop_containers",
-    action="store_true",
-    help="stops all the running test systems containers",
-)
+# parser.add_argument(
+#     "-r",
+#     "--restart_container",
+#     action="store_true",
+#     help="restarts/starts all the test systems containers",
+# )
+# parser.add_argument(
+#     "-R",
+#     "--hard_restart_containers",
+#     action="store_true",
+#     help="deletes all the attached volume data and restarts/starts all the test systems containers",
+# )
+# parser.add_argument(
+#     "-z",
+#     "--stop_container",
+#     action="store_true",
+#     help="stops the running container",
+# )
 parser.add_argument(
     "-s",
     "--start_container",
     action="store_true",
     help="starts the bluespice wiki container",
 )
-parser.add_argument(
-    "-m",
-    "--emulate_as_amd64",
-    action="store_true",
-    help="emulates the docker containers as to run on linux/amd64, it is usefull when running on apple silicon",
-)
-parser.add_argument(
-    "-c",
-    "--clean_wiki",
-    action="store_true",
-    help="stops all wikis, removes them and then deletes all wiki images and their data",
-)
-parser.add_argument(
-    "-C",
-    "--clean",
-    action="store_true",
-    help="stops all containers, removes them and then deletes all local docker images and their data",
-)
+# parser.add_argument(
+#     "-m",
+#     "--emulate_as_amd64",
+#     action="store_true",
+#     help="emulates the docker containers as to run on linux/amd64, it is usefull when running on apple silicon",
+# )
+# parser.add_argument(
+#     "-c",
+#     "--clean_wiki",
+#     action="store_true",
+#     help="stops all wikis, removes them and then deletes all wiki images and their data",
+# )
+# parser.add_argument(
+#     "-C",
+#     "--clean",
+#     action="store_true",
+#     help="stops all containers, removes them and then deletes all local docker images and their data",
+# )
 parser.add_argument(
     "-d",
     "--clean_dangling",
     action="store_true",
     help="cleans the docker of all the dangling images",
 )
+
 parser.add_argument(
     "-b",
     "--build",
@@ -74,23 +75,24 @@ args = parser.parse_args()
 
 @timeit
 def main():
-    if args.stop_containers:
-        docker_down(remove_orphans=False)
+    # if args.stop_container:
+    #     docker_down(remove_orphans=False)
 
-    if args.clean_wiki:
-        subprocess.call(
-            f'docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | grep "{os.getenv("IMAGE_NAME")}") -f',
-            shell=True,
-        )
+    # if args.clean_wiki:
+    #     subprocess.call(
+    #         f'docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | grep "{os.getenv("IMAGE_NAME")}") -f',
+    #         shell=True,
+    #     )
+        
     if args.build:
         subprocess.call(
             f'docker build . -t {os.getenv("IMAGE_NAME")}:{os.getenv("IMAGE_TAG")}',
             shell=True,
         )
 
-    if args.clean:
-        docker_down(remove_orphans=True)
-        docker_clean(os.getenv("DATADIR"))
+    # if args.clean:
+    #     docker_down(remove_orphans=True)
+    #     docker_clean(os.getenv("DATADIR"))
 
     if args.start_container:
         docker_run_cmd = f'docker run \
@@ -114,16 +116,16 @@ def main():
             shell=True,
         )
 
-    if args.restart_container:
-        subprocess.call(
-            f'docker run -d -p {os.getenv("HTTP_PORT")}:80 -p {os.getenv("HTTPS_PORT")}:443 -v {os.getenv("WIKI_INSTALL_DIR")}:/data {os.getenv("IMAGE_NAME")}:{os.getenv("IMAGE_TAG")}',
-            shell=True,
-        )
+    # if args.restart_container:
+    #     subprocess.call(
+    #         f'docker run -d -p {os.getenv("HTTP_PORT")}:80 -p {os.getenv("HTTPS_PORT")}:443 -v {os.getenv("WIKI_INSTALL_DIR")}:/data {os.getenv("IMAGE_NAME")}:{os.getenv("IMAGE_TAG")}',
+    #         shell=True,
+    #     )
 
-    if args.hard_restart_containers:
-        docker_down(remove_orphans=True)
-        docker_clean(os.getenv("DATADIR"))
-        docker_up_build(args.emulate_as_amd64)
+    # if args.hard_restart_containers:
+    #     docker_down(remove_orphans=True)
+    #     docker_clean(os.getenv("DATADIR"))
+    #     docker_up_build(args.emulate_as_amd64)
 
     if args.clean_dangling:
         docker_clean_dangling()

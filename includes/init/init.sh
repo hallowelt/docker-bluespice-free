@@ -114,7 +114,7 @@ if [ -f "/opt/docker/.firstrun" ]; then
         fi
         rm -f /opt/docker/.firstrun
         /opt/docker/setwikiperm.sh /data/www/bluespice/w
-        /etc/init.d/mysql stop > /de>v/logs 2>&1 &
+        /etc/init.d/mysql stop >>/dev/logs 2>&1 &
         /etc/init.d/elasticsearch stop >> /dev/logs 2>&1
     fi
 

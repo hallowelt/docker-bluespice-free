@@ -45,7 +45,7 @@ def docker_up_build(emulate_as_amd64=False):
 
 def docker_down(remove_orphans=False):
     if remove_orphans:
-        subprocess.call('docker-compose down --remove-orphans', shell=True)
+        subprocess.call('docker down --remove-orphans', shell=True)
     else:
         subprocess.call('docker-compose down', shell=True)
 
