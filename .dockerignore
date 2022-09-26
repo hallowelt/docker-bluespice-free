@@ -1,5 +1,5 @@
 .vscode
 runner
-venv/
+bs_venv/
 # # change this if WIKI_INSTALL_DIR is changed in the .gitignore file
 # wiki

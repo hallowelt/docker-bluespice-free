@@ -3,6 +3,6 @@
 .env
 __pycache__/
 __init__.py*
-venv/
+bs_venv/
 *.bz2
 # wiki
