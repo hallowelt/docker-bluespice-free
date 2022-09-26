@@ -5,4 +5,5 @@ __pycache__/
 __init__.py*
 bs_venv/
 *.bz2
+.vscode/
 # wiki

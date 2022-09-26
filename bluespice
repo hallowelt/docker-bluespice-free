@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 
+from runner.commonUtils import *
+# check if inside bs_venv
+if check_install() == False:
+    print("Please run 'make help' to setup bluespice virtual environment first")
+    exit(0)
+
 import argparse
-import os
 import sys
 from runner.dockerUtils import *
-from runner.commonUtils import *
 from dotenv import load_dotenv
 
 load_dotenv()
-
-print("check env var:", os.getenv("WIKI_INSTALL_DIR"))
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -40,7 +42,7 @@ parser.add_argument(
     "-m",
     "--emulate_as_amd64",
     action="store_true",
-    help="emulates the docker containers as to run on linux/amd64, it is usefull when running on apple silicon (m1, m2, etc.)",
+    help="emulates the docker containers as to run on linux/amd64, it is usefull when running on apple silicon",
 )
 parser.add_argument(
     "-c",
@@ -132,8 +134,7 @@ if len(sys.argv) > 1:
     main()
 else:
     print("no options provided")
-    subprocess.call(f"./install -h", shell=True)
-
+    subprocess.call(f"./bluespice -h", shell=True)
 
 
 # docker build . -t bslocal/bsfree:latest && docker run -d bslocal/bsfree:latest -p 80:80 -p 443:443 -v /home/jonty/Developer/wiki:/data -e WIKI_INSTALL_DIR=/home/jonty/Developer/wiki -e WIKI_BACKUP_LIMIT=5 -e DISABLE_PINGBACK=yes -e BS_URL=http://localhost -e BS_LANG=en -e BS_USER=WikiSysop -e BS_PASSWORD=PleaseChangeMe

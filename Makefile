@@ -1,13 +1,13 @@
 .DEFAULT_GOAL=help
 SHELL := /bin/bash
 
-install: setup
+run: setup # Creates venv and install dependencies and activate bs_venv
 
 setup: # Creates venv and install dependencies
 	@if [[ "${VIRTUAL_ENV}" != *bs_venv ]]; then \
-		echo "`tput setaf 2`======= installing =======`tput sgr0`" && /bin/bash --rcfile ./utils/install.sh; \
+		/bin/bash --rcfile ./utils/install.sh; \
 	else \
-		echo "`tput setaf 5`Setup is already done, if facing problems run 'make clean' and run 'make setup' again`tput sgr0`"; \
+		echo "`tput setaf 5`Already inside bs_venv, if facing problems run 'make clean' and run 'make setup' again`tput sgr0`"; \
 	fi
 
 clean: # Cleans the currently installed venv and dependencies
