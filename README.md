@@ -41,11 +41,10 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
 Quickly setup bluespice mediawiki on your system using followng steps:
 - Go inside the docker-bluespice-free directory after cloning it:
   - `cd docker-bluespice-free`
-- Setup [Configuration](#configuration) or keep the default configuration using:
-  - `cp example.env .env`
 - [Activate SSL](#activating-ssl) (optional)
 - Setup virtual environment and install dependencies:
   - `make run`
+- Setup [Configuration](#configuration) in `.env` file (optional)
 - Build and start docker container:
   - `./bluespice -bs`
 - After this the bluespice docker should start spinning up and install all the required dependencies. This could take some time (about 10 minutes). After that open your browser and go to `localhost`.

@@ -4,6 +4,10 @@ SHELL := /bin/bash
 run: setup # Creates venv and install dependencies and activate bs_venv
 
 setup: # Creates venv and install dependencies
+	@if [[ ! -f ./.env ]]; then \
+		echo "creating new .env config file"; \
+		cp -f example.env .env; \
+	fi
 	@if [[ "${VIRTUAL_ENV}" != *bs_venv ]]; then \
 		/bin/bash --rcfile ./utils/install.sh; \
 	else \
@@ -15,5 +19,4 @@ clean: # Cleans the currently installed venv and dependencies
 
 help: # Show this help
 	@egrep -h '\s#\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?# "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
-
 
