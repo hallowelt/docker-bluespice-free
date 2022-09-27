@@ -21,13 +21,19 @@
 
 ## Table of contents
 - [Table of contents](#table-of-contents)
-- [Quick start](#quick-start)
 - [Version Info](#version-info)
+- [Quick start](#quick-start)
 - [Requirements](#requirements)
 - [Configuration](#configuration)
 - [Activating SSL](#activating-ssl)
 - [Which services are runnning?](#which-services-are-runnning)
 - [Bluespice CLI](#bluespice-cli)
+- [Changelogs](#changelogs)
+
+---
+
+## Version Info
+This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespice-free</a> is currently based on [BlueSpice 3](https://en.wikipedia.org/wiki/BlueSpice_MediaWiki#Versions)
 
 ---
 
@@ -44,11 +50,6 @@ Quickly setup bluespice mediawiki on your system using followng steps:
   - `./bluespice -bs`
 - After this the bluespice docker should start spinning up and install all the required dependencies. This could take some time (about 10 minutes). After that open your browser and go to `localhost`.
 - Enter the username: `WikiSysop` and password: `PleaseChangeMe` to login.
-
----
-
-## Version Info
-This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespice-free</a> is currently based on [BlueSpice 3](https://en.wikipedia.org/wiki/BlueSpice_MediaWiki#Versions)
 
 ---
 
@@ -113,3 +114,13 @@ After adding the certificates, also update the `BS_URL` config to `https`. Resta
     -b, --build           builds the bluespice wiki container
 
 ---
+
+## Changelogs
+- Fixed data, config and local settings not getting copied while restoring wiki
+- Added makefile installer
+- Added `bluespice` cli
+- Updated config
+- Added wiki backup threshold limit
+
+---
+
