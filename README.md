@@ -47,8 +47,8 @@ Quickly setup bluespice mediawiki on your system using followng steps:
 - Setup [Configuration](#configuration) in `.env` file (optional)
 - Build and start docker container:
   - `./bluespice -bs`
-- After this the bluespice docker should start spinning up and install all the required dependencies. This could take some time (about 10 minutes). After that open your browser and go to `localhost`.
-- Enter the username: `WikiSysop` and password: `PleaseChangeMe` to login.
+- After this the bluespice docker should start spinning up and install all the required dependencies. This could take some time (about 10 minutes). After that open your browser and go to `BS_URL`.
+- Enter the username as `BS_USER` and password as `BS_PASSWORD` to login.
 
 ---
 
@@ -103,7 +103,7 @@ After adding the certificates, also update the `BS_URL` config to `https`. Resta
 
 ## Bluespice CLI
 
-    usage: ./bluespice [-h] [-s] [-d] [-b]
+    usage: ./bluespice [-h] [-r] [-R] [-z] [-s] [-d] [-b]
 
     options:
     
