@@ -109,6 +109,9 @@ After adding the certificates, also update the `BS_URL` config to `https`. Resta
     options:
     
     -h, --help            show this help message and exit
+    -r, --restart         restarts the wiki container
+    -R, --hard_restart    removes the container, deletes the local image, rebuilds image and then start the container again.
+    -z, --stop            stops the running wiki container
     -s, --start           starts the bluespice wiki container
     -d, --clean_dangling  cleans the docker of all the dangling images
     -b, --build           builds the bluespice wiki container
