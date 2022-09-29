@@ -63,7 +63,7 @@ Quickly setup bluespice mediawiki on your system using followng steps:
 | `BS_LANG`                       | en               | bluespice language                                             |
 | `BS_URL`                        | http://localhost | url on which bluespice will be served                          |
 | `BS_USER`                       | WikiSysop        | admin username                                                 |
-| `BS_PASSWORD`                   | PleaseChangeMe   | adming password                                                |
+| `BS_PASSWORD`                   | PleaseChangeMe   | admin password                                                |
 | `HTTP_PORT`                     | 80               | server http port                                               |
 | `HTTPS_PORT`                    | 443              | server https port                                              |
 | `IMAGE_NAME`                    | bslocal/bsfree   | docker image name to be created                                |
@@ -90,7 +90,7 @@ After adding the certificates, also update the `BS_URL` config to `https`. Resta
 ---
 
 ## Which services are runnning?
- - Apache
+ - Nginx
  - PHP-FPM
  - Jetty9
  - Elasticsearch
