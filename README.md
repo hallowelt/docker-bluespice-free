@@ -103,7 +103,7 @@ After adding the certificates, also update the `BS_URL` config to `https`. Resta
 
 ## Bluespice CLI
 
-    usage: ./bluespice [-h] [-r] [-R] [-z] [-s] [-d] [-b]
+    usage: ./bluespice [-h] [-r] [-R] [-z] [-s] [-d] [-b] [-l]
 
     options:
     
@@ -114,6 +114,7 @@ After adding the certificates, also update the `BS_URL` config to `https`. Resta
     -s, --start           starts the bluespice wiki container
     -d, --clean_dangling  cleans the docker of all the dangling images
     -b, --build           builds the bluespice wiki container
+    -l, --logs            stream logs from current wiki installation
 
 ---
 
