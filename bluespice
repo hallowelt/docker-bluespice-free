@@ -64,7 +64,6 @@ data_dir = os.getenv("WIKI_INSTALL_DIR")
 dk_image_name = f'{os.getenv("IMAGE_NAME")}:{os.getenv("IMAGE_TAG")}'
 dk_container_id = f'$(docker ps -aqf "ancestor={dk_image_name}")'
 docker_run_cmd = f'docker run \
-    -e WIKI_INSTALL_DIR="{os.getenv("WIKI_INSTALL_DIR")}" \
     -e WIKI_BACKUP_LIMIT="{os.getenv("WIKI_BACKUP_LIMIT")}" \
     -e DISABLE_PINGBACK="{os.getenv("DISABLE_PINGBACK")}" \
     -e BS_URL="{os.getenv("BS_URL")}" \

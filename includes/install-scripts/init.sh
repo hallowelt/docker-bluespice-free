@@ -29,7 +29,7 @@ if [ -f "/opt/docker/.firstrun" ]; then
         /etc/init.d/mysql start >> /dev/logs 2>&1
         mkdir -p /data/www/backups/
         mv /data/www/bluespice /data/www/backups/$date
-        python3 $SCRIPT_DIR/backup-wiki-data.py --wiki_backup_limit $WIKI_BACKUP_LIMIT >>/dev/logs 2>&1
+        python3 $SCRIPT_DIR/backup-wiki-data.py $WIKI_BACKUP_LIMIT >>/dev/logs 2>&1
         source $DOWNLOAD_WIKI_SCRIPT
         source $RESTORE_DATA_SCRIPT
     fi

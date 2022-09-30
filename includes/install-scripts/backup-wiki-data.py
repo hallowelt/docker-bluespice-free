@@ -1,12 +1,11 @@
-import argparse
+import sys
 import os
 import subprocess
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-b', '--wiki_backup_limit', action='store')
-args = parser.parse_args()
+WIKI_BACKUP_LIMIT=5
+if len(sys.argv)>1:
+    WIKI_BACKUP_LIMIT=int(sys.argv[1])
 
-WIKI_BACKUP_LIMIT = int(args.wiki_backup_limit)
 WIKI_BACKUP_DIR = "/data/www/backups"
 
 all_backups = next(os.walk(WIKI_BACKUP_DIR))[1]

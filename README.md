@@ -38,17 +38,23 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
 ---
 
 ## Quick start
-Quickly setup bluespice mediawiki on your system using followng steps:
-- Go inside the docker-bluespice-free directory after cloning it:
-  - `cd docker-bluespice-free`
-- [Activate SSL](#activating-ssl) (optional)
-- Setup virtual environment and install dependencies:
-  - `make run`
-- Setup [Configuration](#configuration) in `.env` file (optional)
-- Build and start docker container:
-  - `./bluespice -bs`
-- After this the bluespice docker should start spinning up and install all the required dependencies. This could take some time (about 10 minutes). After that open your browser and go to `BS_URL`.
-- Enter the username as `BS_USER` and password as `BS_PASSWORD` to login.
+1. Using docker cli:
+   - Basic usage (if the data folder is inside the project dir, then also add this path in the .dockerignore:
+     - `docker run -d -p 80:80 -v {/my/data/folder}:/data bluespice/bluespice-free:4.2.x`
+   - Setting Blue Spice language and URL:
+     - `docker run -d -p 80:80 -v {/my/data/folder}:/data -e "BS_LANG=en" -e "BS_URL=http://www.domain.com" bluespice/bluespice-free:4.2.x`
+2. Using bluespice cli (recommended for fast paced development and testing purposes):
+   Quickly setup bluespice mediawiki on your system using followng steps:
+   - Go inside the docker-bluespice-free directory after cloning it:
+     - `cd docker-bluespice-free`
+   - [Activate SSL](#activating-ssl) (optional)
+   - Setup virtual environment and install dependencies:
+     - `make run`
+   - Setup [Configuration](#configuration) in `.env` file (optional)
+   - Build and start docker container:
+     - `./bluespice -bs`
+   - After this the bluespice docker should start spinning up and install all the required dependencies. This could take some time (about 10 minutes). After that open your browser and go to `BS_URL`.
+   - Enter the username as `BS_USER` and password as `BS_PASSWORD` to login.
 
 ---
 
@@ -68,11 +74,11 @@ Quickly setup bluespice mediawiki on your system using followng steps:
 | `HTTPS_PORT`                    | 443              | server https port                                              |
 | `IMAGE_NAME`                    | bslocal/bsfree   | docker image name to be created                                |
 | `IMAGE_TAG`                     | 3.x.x            | docker image tag                                               |
-| `DISABLE_PINGBACK`              | yes              | sends pingback to the bluespice servers                        |
+| `DISABLE_PINGBACK`              | no              | sends pingback to the bluespice servers                        |
 | `WIKI_INSTALL_DIR`<sup>1</sup>  | ~/wiki           | dir where bluespice files will be stored                       |
 | `WIKI_BACKUP_LIMIT`<sup>2</sup> | 5                | max limit of backups, after this the  oldest backup is deleted |
 
-*1: During first boot, a pingback is sent to our servers for collecting download statistics of the docker image. This pingback is not collecting any data of your container or your current installation. You can also easily disable this pingback by setting it `no`.*
+*1: During first boot, a pingback is sent to our servers for collecting download statistics of the docker image. This pingback is not collecting any data of your container or your current installation. You can also easily disable this pingback by setting it `yes`.*
 
 *2: If `WIKI_INSTALL_DIR` path is changed and if this directory is inside the current projcet folder (docker-bluespice-free/) then also add the path in [.dockerignore](.dockerignore) and [.gitignore](.gitignore).*
 
