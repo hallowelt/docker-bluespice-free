@@ -12,9 +12,10 @@ RUN apt-get update \
 FROM main as bsbuild
 ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
+ADD https://buildservice.bluespice.com/webservices/REL1_31/BShtml2PDF.war /tmp/
 ADD https://bluespice.com/filebase/bluespice-free-4-2/ /opt/BlueSpice-free.zip
-ADD https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
-# COPY ./phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
+ADD https://buildservice.bluespice.com/webservices/4.2.x/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
+# COPY ./phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
 RUN apt-get -y --no-install-recommends install \
  bzip2 \
  && cd /tmp \
@@ -56,6 +57,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 	imagemagick \
 	poppler-utils \
 	ghostscript \
+	wget \
  && mkdir -p /opt/docker/pkg \
  && cd /tmp \
  && dpkg -i /tmp/elasticsearch-oss-6.8.23.deb \
@@ -69,6 +71,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && rm -Rf /tmp/* \
  && find /var/log -type f -delete \
  && ln -s /usr/bin/python3 /usr/bin/python
+#  && cd /tmp \
+#  && wget https://buildservice.bluespice.com/webservices/REL1_31/BShtml2PDF.war
+#  && echo "${SHA256} BShtml2PDF.war" | sha256sum -c - 
 
 FROM bsbase
 ENV TZ=UTC
@@ -80,6 +85,7 @@ RUN chmod a+x /opt/docker/*.sh /opt/docker/install-scripts/*.sh \
  && mkdir -p /opt/docker/bluespice-data/extensions/BluespiceFoundation \
  && mkdir -p /opt/docker/bluespice-data/settings.d \
  && mkdir /data \
+ && mkdir -p /var/lib/jetty9/webapps \
  && touch /opt/docker/.firstrun
 COPY ./includes/bluespice-data /opt/docker/bluespice-data
 COPY ./includes/misc/cron/bluespice /etc/cron.d/
@@ -97,6 +103,9 @@ RUN rm /etc/nginx/sites-enabled/* \
  && ln -s /etc/nginx/sites-available/bluespice.conf /etc/nginx/sites-enabled/
 COPY ./includes/misc/pingback/pingback.js /opt/docker/
 COPY --from=bsbuild /usr/local/bin/phantomjs /usr/local/bin
-RUN echo "JAVA_OPTIONS=\"\-Xms512m -Xmx1024m -Djetty.home=127.0.0.1\"" >> /etc/default/jetty9; \
+COPY --from=bsbuild /tmp/BShtml2PDF.war /var/lib/jetty9/webapps
+RUN chown jetty:adm /var/lib/jetty9/webapps/BShtml2PDF.war \
+	&& echo "JAVA_OPTIONS=\"\-Xms512m -Xmx1024m -Djetty.home=127.0.0.1\"" >> /etc/default/jetty9; \
 	chown -Rf www-data:www-data /run/php
+	
 ENTRYPOINT /opt/docker/install-scripts/init.sh

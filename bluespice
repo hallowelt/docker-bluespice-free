@@ -80,6 +80,7 @@ def main():
         subprocess.call(f'docker rm -f {dk_container_id}', shell=True)
         subprocess.call(f'docker rmi -f {dk_image_name}', shell=True)
         subprocess.call(f"docker build . -t {dk_image_name}", shell=True)
+        subprocess.call("docker system prune -f", shell=True)
         subprocess.call(docker_run_cmd, shell=True)
 
     if args.stop:
@@ -88,6 +89,8 @@ def main():
 
     if args.build:
         subprocess.call(f"docker build . -t {dk_image_name}", shell=True)
+        subprocess.call("docker system prune -f", shell=True)
+
 
     if args.start:
         match_string = "not exist"
@@ -106,7 +109,7 @@ def main():
             subprocess.call(docker_run_cmd, shell=True)
 
     if args.clean_dangling:
-        subprocess.call("docker image prune -f", shell=True)
+        subprocess.call("docker system prune -f", shell=True)
 
 
 if len(sys.argv) > 1:
