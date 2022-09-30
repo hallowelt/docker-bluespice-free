@@ -4,7 +4,7 @@
   </a>
 
   <h3 align="center">BlueSpice</h3>
-  <h6 align="center">Dockerized BlueSpice Free Edition v3</h6>
+  <h6 align="center">Dockerized BlueSpice Free Edition v4</h6>
 
   <p align="center">
     BlueSpice free is an entry-level, no-cost version of BlueSpice pro. It sits on top of an existing MediaWiki without interfering with its architecture, adds lots of user-friendly features and supplements it with a multitude of helpful functions for teams and small businesses.
@@ -33,7 +33,7 @@
 ---
 
 ## Version Info
-This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespice-free</a> is currently based on [BlueSpice 3](https://en.wikipedia.org/wiki/BlueSpice_MediaWiki#Versions)
+This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespice-free</a> is currently based on [BlueSpice 4](https://en.wikipedia.org/wiki/BlueSpice_MediaWiki#Versions)
 
 ---
 
