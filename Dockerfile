@@ -15,7 +15,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 ADD https://bluespice.com/filebase/bluespice-free-4-2/ /opt/BlueSpice-free.zip
 ADD https://buildservice.bluespice.com/webservices/REL1_31/BShtml2PDF.war /tmp/
 ADD https://buildservice.bluespice.com/webservices/4.2.x/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
-# COPY ./phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
 RUN apt-get -y --no-install-recommends install \
  bzip2 \
  && cd /tmp \
@@ -57,7 +56,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 	imagemagick \
 	poppler-utils \
 	ghostscript \
-	wget \
  && mkdir -p /opt/docker/pkg \
  && cd /tmp \
  && dpkg -i /tmp/elasticsearch-oss-6.8.23.deb \
@@ -71,9 +69,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && rm -Rf /tmp/* \
  && find /var/log -type f -delete \
  && ln -s /usr/bin/python3 /usr/bin/python
-#  && cd /tmp \
-#  && wget https://buildservice.bluespice.com/webservices/REL1_31/BShtml2PDF.war
-#  && echo "${SHA256} BShtml2PDF.war" | sha256sum -c - 
 
 FROM bsbase
 ENV TZ=UTC
