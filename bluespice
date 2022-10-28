@@ -1,0 +1,129 @@
+#!/usr/bin/env python3
+
+from runner.commonUtils import *
+
+# check if inside bs_venv
+if check_install() == False:
+    print("Please run 'make help' to setup bluespice virtual environment first")
+    exit(0)
+
+import argparse
+import sys
+from runner.dockerUtils import *
+from dotenv import load_dotenv
+
+load_dotenv()
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "-r",
+    "--restart",
+    action="store_true",
+    help="restarts the wiki container",
+)
+parser.add_argument(
+    "-R",
+    "--hard_restart",
+    action="store_true",
+    help="removes the container, deletes the local image, rebuilds image and then start the container again.",
+)
+parser.add_argument(
+    "-z",
+    "--stop",
+    action="store_true",
+    help="stops the running wiki container",
+)
+parser.add_argument(
+    "-s",
+    "--start",
+    action="store_true",
+    help="starts the bluespice wiki container",
+)
+parser.add_argument(
+    "-d",
+    "--clean_dangling",
+    action="store_true",
+    help="cleans the docker of all the dangling images",
+)
+parser.add_argument(
+    "-b",
+    "--build",
+    action="store_true",
+    help="builds the bluespice wiki container",
+)
+parser.add_argument(
+    "-l",
+    "--logs",
+    action="store_true",
+    help="stream logs from current wiki installation",
+)
+
+args = parser.parse_args()
+
+data_dir = os.getenv("WIKI_INSTALL_DIR")
+dk_image_name = f'{os.getenv("IMAGE_NAME")}:{os.getenv("IMAGE_TAG")}'
+dk_container_id = f'$(docker ps -aqf "ancestor={dk_image_name}")'
+docker_run_cmd = f'docker run \
+    -e WIKI_BACKUP_LIMIT="{os.getenv("WIKI_BACKUP_LIMIT")}" \
+    -e DISABLE_PINGBACK="{os.getenv("DISABLE_PINGBACK")}" \
+    -e BS_URL="{os.getenv("BS_URL")}" \
+    -e BS_LANG="{os.getenv("BS_LANG")}" \
+    -e BS_USER="{os.getenv("BS_USER")}" \
+    -e BS_PASSWORD={os.getenv("BS_PASSWORD")} \
+    -p {os.getenv("HTTP_PORT")}:80 \
+    -p {os.getenv("HTTPS_PORT")}:443 \
+    -v {os.getenv("WIKI_INSTALL_DIR")}:/data \
+    -d "{dk_image_name}"'
+
+
+@timeit
+def main():
+    if args.restart:
+        restart_cmd = f"docker stop {dk_container_id} && docker start {dk_container_id}"
+        subprocess.call(restart_cmd, shell=True)
+
+    if args.hard_restart:
+        subprocess.call(f'docker rm -f {dk_container_id}', shell=True)
+        subprocess.call(f'docker rmi -f {dk_image_name}', shell=True)
+        subprocess.call(f"docker build . -t {dk_image_name}", shell=True)
+        subprocess.call("docker system prune -f", shell=True)
+        subprocess.call(docker_run_cmd, shell=True)
+
+    if args.stop:
+        stop_cmd = f"docker stop {dk_container_id}"
+        subprocess.call(stop_cmd, shell=True)
+
+    if args.build:
+        subprocess.call(f"docker build . -t {dk_image_name}", shell=True)
+        subprocess.call("docker system prune -f", shell=True)
+
+
+    if args.start:
+        match_string = "not exist"
+        check_container = (
+            f'docker container inspect {dk_container_id} || echo "{match_string}"'
+        )
+        output = subprocess.run(
+            check_container, shell=True, capture_output=True, text=True
+        )
+        if "not exist" not in output.stdout:
+            print(f"found built container, starting it")
+            start_cmd = f"docker start {dk_container_id}"
+            subprocess.call(start_cmd, shell=True)
+        else:
+            print(f"creating new container: {dk_image_name}")
+            subprocess.call(docker_run_cmd, shell=True)
+
+    if args.clean_dangling:
+        subprocess.call("docker system prune -f", shell=True)
+    
+    if args.logs:
+        subprocess.call(f'docker exec -ti {dk_container_id} sh -c "tail -f /dev/logs"', shell=True)
+
+
+if len(sys.argv) > 1:
+    subprocess.call(f'mkdir -p {os.getenv("WIKI_INSTALL_DIR")}', shell=True)
+    main()
+else:
+    print("no options provided")
+    subprocess.call(f"./{os.path.basename(__file__)} -h", shell=True)

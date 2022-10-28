@@ -1,2 +1,8 @@
 *.zip
 .DS_Store
+.env
+__pycache__/
+__init__.py*
+bs_venv/
+*.bz2
+.vscode/
