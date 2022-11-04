@@ -39,10 +39,50 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
 
 ## Quick start
 1. Using docker cli:
+  - To continue with the default config, create new .env:
+      ```bash
+      cp ./example.env ./.env
+      ```
+   - Set env vars:
+      ```bash
+      export $(grep -v '^#' ./.env | xargs)
+      ```
+   - Build docker image:
+      ```bash
+      docker build --build-arg BLUESPICE_EDITION=$BLUESPICE_EDITION -t bluespice/$BLUESPICE_EDITION:4.2.2 --target $BLUESPICE_EDITION .
+      ```
+   - Create and run docker container:
+      ```bash
+      docker run -d \
+      -p $WIKI_HOST_HTTP_PORT:80 \
+      -p $WIKI_HOST_HTTPS_PORT:443 \
+      -v $WIKI_INSTALL_DIR/etc:/etc/bluespice \
+      -v $WIKI_INSTALL_DIR/bluespice/images:/var/www/bluespice/w/images \
+      -v $WIKI_INSTALL_DIR/bluespice/settings.d:/var/www/bluespice/w/settings.d \
+      -v $WIKI_INSTALL_DIR/bluespice/extensions/BlueSpiceFoundation/config:/var/www/bluespice/w/extensions/BlueSpiceFoundation/config \
+      -v $WIKI_INSTALL_DIR/bluespice/extensions/BlueSpiceFoundation/data:/var/www/bluespice/w/extensions/BlueSpiceFoundation/data \
+      -v $WIKI_INSTALL_DIR/backup:/backup \
+      -v $WIKI_INSTALL_DIR/docker:/opt/bluespice-docker \
+      -v $WIKI_INSTALL_DIR/elasticsearch:/var/lib/elasticsearch \
+      -v $WIKI_INSTALL_DIR/kerberos:/opt/kerberos \
+      -v $WIKI_INSTALL_DIR/mysql:/var/lib/mysql \
+      -v $WIKI_INSTALL_DIR/postfix:/etc/postfix \
+      -v $WIKI_INSTALL_DIR/ssl:/etc/apache2/ssl \
+      -v $WIKI_INSTALL_DIR/startup:/opt/docker-startup \
+      -v $WIKI_INSTALL_DIR/_sf_instances:/var/www/bluespice/w/_sf_instances \
+      -v $WIKI_INSTALL_DIR/_sf_archive:/var/www/bluespice/w/_sf_archive \
+      --env-file ./.env \
+      --cap-add=SYS_PTRACE \
+      --restart always \
+      --name bluespice-$BLUESPICE_EDITION-4.2.2 \
+      bluespice/$BLUESPICE_EDITION:4.2.2
+      ```
+
+
    - Basic usage (if the data folder is inside the project dir, then also add this path in the .dockerignore:
      - `docker run -d -p 80:80 -v {/my/data/folder}:/data bluespice/bluespice-free:4.2.x`
    - Setting Blue Spice language and URL:
-     - `docker run -d -p 80:80 -v {/my/data/folder}:/data -e "BS_LANG=en" -e "BS_URL=http://www.domain.com" bluespice/bluespice-free:4.2.x`
+     - `docker run -d -p 80:80 -v {/my/data/folder}:/data -e "BS_LANGUAGE=en" -e "BS_URL=http://www.domain.com" bluespice/bluespice-free:4.2.x`
 2. Using bluespice cli (recommended for fast paced development and testing purposes):
    Quickly setup bluespice mediawiki on your system using followng steps:
    - Go inside the docker-bluespice-free directory after cloning it:
