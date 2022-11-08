@@ -47,9 +47,13 @@ fi
 echo ".."
 ln -s /opt/docker/bluespice-data/settings.d/* /data/www/bluespice/w/settings.d/
 
-# /usr/bin/php /data/www/bluespice/w/maintenance/install.php --confpath="/data/www/bluespice/w" --dbname="bluespice" --dbuser="bluespice" --dbpass="$rndpass" --dbserver="localhost" --lang="$BS_LANG" --pass="$BS_PASSWORD" --scriptpath=/w --server="$BS_URL" "BlueSpice" "$BS_USER" >>/dev/logs 2>&1
+if [[ $BS_URL = https* ]]; then
+    BS_PORT=$HTTPS_PORT
+else
+    BS_PORT=$HTTP_PORT
+fi
 
-/usr/bin/php /data/www/bluespice/w/maintenance/install.php --confpath=/var/www/bluespice/w --dbname=bluespice --dbuser=bluespice --dbpass=${BS_DB_PASSWORD} --dbserver=127.0.0.1 --lang=${BS_LANGUAGE} --pass=${BS_SYSOP_PASSWORD} --scriptpath=/w --server=${BS_URL}:${BS_PORT} "${BS_NAME}" $BS_USER >>/dev/logs 2>&1
+/usr/bin/php /data/www/bluespice/w/maintenance/install.php --confpath=/data/www/bluespice/w --dbname=bluespice --dbuser=bluespice --dbpass=${BS_DB_PASSWORD} --dbserver=127.0.0.1 --lang=${BS_LANGUAGE} --pass=${BS_SYSOP_PASSWORD} --scriptpath=/w --server=${BS_URL}:${BS_PORT} "${BS_NAME}" $BS_USER >>/dev/logs 2>&1
 
 echo "copying bluespice foundation data and config folders..." >>/dev/logs 2>&1
 mkdir -p /data/www/bluespice/w/extensions/BlueSpiceFoundation/data >>/dev/logs 2>&1
