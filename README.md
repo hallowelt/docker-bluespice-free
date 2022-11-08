@@ -72,7 +72,7 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
    - Build and start docker container:
      - `./bluespice -bs`
    - After this the bluespice docker should start spinning up and install all the required dependencies. This could take some time (about 10 minutes). After that open your browser and go to `BS_URL`.
-   - Enter the username as `BS_USER` and password as `BS_SYSOP_PASSWORD` to login.
+   - Enter the username as `BS_USER` and password as `BS_PASSWORD` to login.
 
 ---
 
@@ -87,7 +87,7 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
 | `BS_LANGUAGE`                   | en               | bluespice language                                             |
 | `BS_URL`                        | http://localhost | url on which bluespice will be served                          |
 | `BS_USER`                       | WikiSysop        | admin username                                                 |
-| `BS_SYSOP_PASSWORD`             | PleaseChangeMe   | admin password                                                |
+| `BS_PASSWORD`                   | PleaseChangeMe   | admin password                                                |
 | `HTTP_PORT`                     | 80               | server http port                                               |
 | `HTTPS_PORT`                    | 443              | server https port                                              |
 | `IMAGE_NAME`                    | bslocal/bsfree   | docker image name to be created                                |
