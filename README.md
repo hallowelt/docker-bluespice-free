@@ -89,6 +89,7 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
 | `BS_USER`                       | WikiSysop        | admin username                                                 |
 | `BS_NAME`                       | Bluespice        | default wiki name                                              |
 | `BS_PASSWORD`                   | PleaseChangeMe   | admin password                                                 |
+| `BS_DB_PASSWORD`                | ThisIsDBPassword | default database password                                      |
 | `HTTP_PORT`                     | 80               | server http port                                               |
 | `HTTPS_PORT`                    | 443              | server https port                                              |
 | `IMAGE_NAME`                    | bslocal/bsfree   | docker image name to be created                                |

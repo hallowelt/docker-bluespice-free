@@ -12,8 +12,9 @@ rm -Rf /var/lib/mysql >>/dev/logs 2>&1
 ln -s /data/mysql /var/lib/mysql >>/dev/logs 2>&1
 source $START_SERVICES_SCRIPT
 
-BS_DB_PASSWORD="ThisIsDBPassword"
-
+if [ -z $BS_DB_PASSWORD ]; then
+    BS_DB_PASSWORD="ThisIsDBPassword"
+fi
 if [ -z $BS_LANG ]; then
     BS_LANG="en"
 fi
