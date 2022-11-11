@@ -84,7 +84,7 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
 ## Configuration
 | name                            | default value    | description                                                    |
 |---------------------------------|------------------|----------------------------------------------------------------|
-| `BS_LANGUAGE`                   | en               | bluespice language                                             |
+| `BS_LANG`                       | en               | bluespice language                                             |
 | `BS_URL`                        | http://localhost | url on which bluespice will be served                          |
 | `BS_USER`                       | WikiSysop        | admin username                                                 |
 | `BS_NAME`                       | Bluespice        | default wiki name                                              |

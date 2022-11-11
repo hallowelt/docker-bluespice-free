@@ -67,7 +67,7 @@ docker_run_cmd = f'docker run \
     -e WIKI_BACKUP_LIMIT="{os.getenv("WIKI_BACKUP_LIMIT")}" \
     -e DISABLE_PINGBACK="{os.getenv("DISABLE_PINGBACK")}" \
     -e BS_URL="{os.getenv("BS_URL")}" \
-    -e BS_LANGUAGE="{os.getenv("BS_LANGUAGE")}" \
+    -e BS_LANG="{os.getenv("BS_LANG")}" \
     -e BS_USER="{os.getenv("BS_USER")}" \
     -e BS_PASSWORD={os.getenv("BS_PASSWORD")} \
     -p {os.getenv("HTTP_PORT")}:80 \

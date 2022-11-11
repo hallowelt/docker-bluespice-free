@@ -14,8 +14,8 @@ source $START_SERVICES_SCRIPT
 
 BS_DB_PASSWORD="ThisIsDBPassword"
 
-if [ -z $BS_LANGUAGE ]; then
-    BS_LANGUAGE="en"
+if [ -z $BS_LANG ]; then
+    BS_LANG="en"
 fi
 if [ -z $BS_URL ]; then
     BS_URL="http://localhost"
@@ -51,7 +51,7 @@ else
     BS_PORT=$HTTP_PORT
 fi
 
-/usr/bin/php /data/www/bluespice/w/maintenance/install.php --confpath=/data/www/bluespice/w --dbname=bluespice --dbuser=bluespice --dbpass=${BS_DB_PASSWORD} --dbserver=127.0.0.1 --lang=${BS_LANGUAGE} --pass=${BS_PASSWORD} --scriptpath=/w --server=${BS_URL}:${BS_PORT} "${BS_NAME}" $BS_USER >>/dev/logs 2>&1
+/usr/bin/php /data/www/bluespice/w/maintenance/install.php --confpath=/data/www/bluespice/w --dbname=bluespice --dbuser=bluespice --dbpass=${BS_DB_PASSWORD} --dbserver=127.0.0.1 --lang=${BS_LANG} --pass=${BS_PASSWORD} --scriptpath=/w --server=${BS_URL}:${BS_PORT} "${BS_NAME}" $BS_USER >>/dev/logs 2>&1
 
 echo "copying bluespice foundation data and config folders..." >>/dev/logs 2>&1
 mkdir -p /data/www/bluespice/w/extensions/BlueSpiceFoundation/data >>/dev/logs 2>&1
