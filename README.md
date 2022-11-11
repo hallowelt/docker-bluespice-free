@@ -87,12 +87,13 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
 | `BS_LANGUAGE`                   | en               | bluespice language                                             |
 | `BS_URL`                        | http://localhost | url on which bluespice will be served                          |
 | `BS_USER`                       | WikiSysop        | admin username                                                 |
-| `BS_PASSWORD`                   | PleaseChangeMe   | admin password                                                |
+| `BS_NAME`                       | Bluespice        | default wiki name                                              |
+| `BS_PASSWORD`                   | PleaseChangeMe   | admin password                                                 |
 | `HTTP_PORT`                     | 80               | server http port                                               |
 | `HTTPS_PORT`                    | 443              | server https port                                              |
 | `IMAGE_NAME`                    | bslocal/bsfree   | docker image name to be created                                |
 | `IMAGE_TAG`                     | 3.x.x            | docker image tag                                               |
-| `DISABLE_PINGBACK`              | no              | sends pingback to the bluespice servers                        |
+| `DISABLE_PINGBACK`              | no               | sends pingback to the bluespice servers                        |
 | `WIKI_INSTALL_DIR`<sup>1</sup>  | ~/wiki           | dir where bluespice files will be stored                       |
 | `WIKI_BACKUP_LIMIT`<sup>2</sup> | 5                | max limit of backups, after this the  oldest backup is deleted |
 
