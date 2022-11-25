@@ -12,7 +12,8 @@ RUN apt-get update \
 FROM main as bsbuild
 ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
-ADD https://buildservice.bluespice.com/dpackages/BlueSpice-free-4.2.2.tar.gz /opt/BlueSpice-free.tar.gz
+ENV BLUESPICE_DOCKER_FREE_BUILD=BlueSpice-free.zip
+ADD https://bluespice.com/filebase/bluespice-free/ /opt/${BLUESPICE_DOCKER_FREE_BUILD}
 ADD https://buildservice.bluespice.com/webservices/REL1_31/BShtml2PDF.war /tmp/
 ADD https://buildservice.bluespice.com/webservices/4.2.x/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
 RUN apt-get -y --no-install-recommends install \
@@ -73,6 +74,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 FROM bsbase
 ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
+ENV BLUESPICE_DOCKER_FREE_BUILD=BlueSpice-free.zip
 COPY ./includes/install-scripts /opt/docker/install-scripts
 COPY ./includes/misc/scripts/setwikiperm.sh /opt/docker/
 RUN chmod a+x /opt/docker/*.sh /opt/docker/install-scripts/*.sh \
@@ -93,7 +95,7 @@ COPY ./includes/misc/nginx/nginx.conf /etc/nginx/
 COPY ./includes/misc/php/php.ini /etc/php/7.4/fpm/
 COPY ./includes/misc/php/www.conf /etc/php/7.4/fpm/pool.d/
 COPY ./includes/misc/php/opcache.blacklist /etc/php/opcache.blacklist
-COPY --from=bsbuild /opt/BlueSpice-free.tar.gz /opt/docker/pkg/
+COPY --from=bsbuild /opt/${BLUESPICE_DOCKER_FREE_BUILD} /opt/docker/pkg/
 RUN rm /etc/nginx/sites-enabled/* \
  && ln -s /etc/nginx/sites-available/bluespice.conf /etc/nginx/sites-enabled/
 COPY ./includes/misc/pingback/pingback.js /opt/docker/
