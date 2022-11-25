@@ -12,11 +12,9 @@ rm -Rf /var/lib/mysql >>/dev/logs 2>&1
 ln -s /data/mysql /var/lib/mysql >>/dev/logs 2>&1
 source $START_SERVICES_SCRIPT
 
-/usr/bin/mysql -u root -e "CREATE DATABASE bluespice"
-/usr/bin/mysql -u root -e "CREATE USER 'bluespice'@'localhost' IDENTIFIED BY \"$rndpass\""
-/usr/bin/mysql -u root -e "GRANT ALL PRIVILEGES ON bluespice.* to 'bluespice'@'localhost'"
-/usr/bin/mysql -u root -e "FLUSH PRIVILEGES"
-sleep 5
+if [ -z $BS_DB_PASSWORD ]; then
+    BS_DB_PASSWORD="ThisIsDBPassword"
+fi
 if [ -z $BS_LANG ]; then
     BS_LANG="en"
 fi
@@ -29,6 +27,16 @@ fi
 if [ -z $BS_PASSWORD ]; then
     BS_PASSWORD="PleaseChangeMe"
 fi
+if [ -z $BS_NAME ]; then
+    BS_NAME="Bluespice"
+fi
+
+/usr/bin/mysql -u root -e "CREATE DATABASE bluespice"
+/usr/bin/mysql -u root -e "CREATE USER 'bluespice'@'localhost' IDENTIFIED BY \"$BS_DB_PASSWORD\""
+/usr/bin/mysql -u root -e "GRANT ALL PRIVILEGES ON bluespice.* to 'bluespice'@'localhost'"
+/usr/bin/mysql -u root -e "FLUSH PRIVILEGES"
+sleep 5
+
 if [ -f "/data/cert/ssl.cert" ] && [ -f "/data/cert/ssl.key" ]; then
     sed -i "s/{CERTFILE}/\/data\/cert\/ssl.cert/g" /etc/nginx/sites-available/bluespice-ssl.conf
     sed -i "s/{KEYFILE}/\/data\/cert\/ssl.key/g" /etc/nginx/sites-available/bluespice-ssl.conf
@@ -38,7 +46,13 @@ fi
 echo ".."
 ln -s /opt/docker/bluespice-data/settings.d/* /data/www/bluespice/w/settings.d/
 
-/usr/bin/php /data/www/bluespice/w/maintenance/install.php --confpath="/data/www/bluespice/w" --dbname="bluespice" --dbuser="bluespice" --dbpass="$rndpass" --dbserver="localhost" --lang="$BS_LANG" --pass="$BS_PASSWORD" --scriptpath=/w --server="$BS_URL" "BlueSpice" "$BS_USER" >>/dev/logs 2>&1
+if [[ $BS_URL = https* ]]; then
+    BS_PORT=$HTTPS_PORT
+else
+    BS_PORT=$HTTP_PORT
+fi
+
+/usr/bin/php /data/www/bluespice/w/maintenance/install.php --confpath=/data/www/bluespice/w --dbname=bluespice --dbuser=bluespice --dbpass=${BS_DB_PASSWORD} --dbserver=127.0.0.1 --lang=${BS_LANG} --pass=${BS_PASSWORD} --scriptpath=/w --server=${BS_URL}:${BS_PORT} "${BS_NAME}" $BS_USER >>/dev/logs 2>&1
 
 echo "copying bluespice foundation data and config folders..." >>/dev/logs 2>&1
 mkdir -p /data/www/bluespice/w/extensions/BlueSpiceFoundation/data >>/dev/logs 2>&1

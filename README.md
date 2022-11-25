@@ -39,11 +39,29 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
 
 ## Quick start
 1. Using docker cli:
-   - Basic usage (if the data folder is inside the project dir, then also add this path in the .dockerignore:
-     - `docker run -d -p 80:80 -v {/my/data/folder}:/data bluespice/bluespice-free:4.2.x`
-   - Setting Blue Spice language and URL:
-     - `docker run -d -p 80:80 -v {/my/data/folder}:/data -e "BS_LANG=en" -e "BS_URL=http://www.domain.com" bluespice/bluespice-free:4.2.x`
-2. Using bluespice cli (recommended for fast paced development and testing purposes):
+    - To continue with the default config, create new .env:
+      ```bash
+      cp ./example.env ./.env
+      ```
+    - Set env vars:
+      ```bash
+      export $(grep -v '^#' ./.env | xargs)
+      ```
+    - Build docker image:
+      ```bash
+      docker build -t $IMAGE_NAME:$IMAGE_TAG .
+      ```
+      Note: If the data folder is inside the project dir, then also add this path in the .dockerignore
+    - Create and run docker container:
+      ```bash
+      docker run \
+      --env-file ./.env \
+      -p $HTTP_PORT:80 \
+      -p $HTTPS_PORT:443 \
+      -v $WIKI_INSTALL_DIR:/data \
+      -d $IMAGE_NAME:$IMAGE_TAG
+      ```
+2. Using bluespice cli:
    Quickly setup bluespice mediawiki on your system using followng steps:
    - Go inside the docker-bluespice-free directory after cloning it:
      - `cd docker-bluespice-free`
@@ -69,12 +87,14 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
 | `BS_LANG`                       | en               | bluespice language                                             |
 | `BS_URL`                        | http://localhost | url on which bluespice will be served                          |
 | `BS_USER`                       | WikiSysop        | admin username                                                 |
-| `BS_PASSWORD`                   | PleaseChangeMe   | admin password                                                |
+| `BS_NAME`                       | Bluespice        | default wiki name                                              |
+| `BS_PASSWORD`                   | PleaseChangeMe   | admin password                                                 |
+| `BS_DB_PASSWORD`                | ThisIsDBPassword | default database password                                      |
 | `HTTP_PORT`                     | 80               | server http port                                               |
 | `HTTPS_PORT`                    | 443              | server https port                                              |
 | `IMAGE_NAME`                    | bslocal/bsfree   | docker image name to be created                                |
 | `IMAGE_TAG`                     | 3.x.x            | docker image tag                                               |
-| `DISABLE_PINGBACK`              | no              | sends pingback to the bluespice servers                        |
+| `DISABLE_PINGBACK`              | no               | sends pingback to the bluespice servers                        |
 | `WIKI_INSTALL_DIR`<sup>1</sup>  | ~/wiki           | dir where bluespice files will be stored                       |
 | `WIKI_BACKUP_LIMIT`<sup>2</sup> | 5                | max limit of backups, after this the  oldest backup is deleted |
 
