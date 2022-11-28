@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://example.com/">
+  <a href="https://bluespice.com/">
     <img src="https://bluespice.com/app/media/2020/02/cropped-bluespice-fav.png" alt="Logo" width=72 height=72>
   </a>
 
