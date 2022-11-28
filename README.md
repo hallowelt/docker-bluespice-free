@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://bluespice.com/">
-    <img src="https://bluespice.com/app/media/2020/02/cropped-bluespice-fav.png" alt="Logo" width=72 height=72>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/BlueSpice_Logo_v2020.png" alt="Logo" width=72 height=72>
   </a>
 
   <h3 align="center">BlueSpice</h3>
