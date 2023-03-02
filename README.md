@@ -82,6 +82,7 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
 - docker >= 20.10
 
 ## Configuration
+(NOTE: Currently `HTTP_PORT` only works with port 80, changing it to will cause internal nginx redirection issues)
 | name                            | default value    | description                                                    |
 |---------------------------------|------------------|----------------------------------------------------------------|
 | `BS_LANG`                       | en               | bluespice language                                             |
@@ -93,7 +94,7 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
 | `HTTP_PORT`                     | 80               | server http port                                               |
 | `HTTPS_PORT`                    | 443              | server https port                                              |
 | `IMAGE_NAME`                    | bslocal/bsfree   | docker image name to be created                                |
-| `IMAGE_TAG`                     | 4.2.4            | docker image tag                                               |
+| `IMAGE_TAG`                     | 4.2.5        | docker image tag                                               |
 | `DISABLE_PINGBACK`              | no               | sends pingback to the bluespice servers                        |
 | `WIKI_INSTALL_DIR`<sup>1</sup>  | ~/wiki           | dir where bluespice files will be stored                       |
 | `WIKI_BACKUP_LIMIT`<sup>2</sup> | 5                | max limit of backups, after this the  oldest backup is deleted |
