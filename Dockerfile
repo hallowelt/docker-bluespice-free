@@ -1,12 +1,8 @@
-FROM ubuntu:20.04 as main
+FROM ubuntu:22.04 as main
 RUN apt-get update \
  && apt-get -y --no-install-recommends install \
     gnupg2 \
 	curl \
-	ca-certificates \
- && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 14AA40EC0831756756D7F66C4F4EA0AAE5267A6C \
- && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main" >> /etc/apt/sources.list \
- && echo "deb-src http://ppa.launchpad.net/ondrej/php/ubuntu focal main" >> /etc/apt/sources.list \
  && apt-get update
 
 FROM main as bsbuild
@@ -14,8 +10,8 @@ ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BLUESPICE_DOCKER_FREE_BUILD=BlueSpice-free.zip
 ADD https://bluespice.com/filebase/bluespice-free/ /opt/${BLUESPICE_DOCKER_FREE_BUILD}
-ADD https://buildservice.bluespice.com/webservices/REL1_31/BShtml2PDF.war /tmp/
-ADD https://buildservice.bluespice.com/webservices/4.2.x/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
+ADD https://buildservice.bluespice.com/webservices/4.3.x/BShtml2PDF.war /tmp/
+ADD https://buildservice.bluespice.com/webservices/4.3.x/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
 RUN apt-get -y --no-install-recommends install \
  bzip2 \
  && cd /tmp \
@@ -35,21 +31,21 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 	cron \
 	logrotate \
 	nginx \
-	php7.4-fpm \
-	php7.4-xml \
-	php7.4-mbstring \
-	php7.4-curl \
+	php-fpm \
+	php-xml \
+	php-mbstring \
+	php-curl \
 	unzip \
-	php7.4-zip \
-	php7.4-tidy \
-	php7.4-gd \
-	php7.4-cli \
-	php7.4-json \
-	php7.4-mysql \
-	php7.4-ldap \
-	php7.4-opcache \
-	php7.4-memcache \
-	php7.4-intl \
+	php-zip \
+	php-tidy \
+	php-gd \
+	php-cli \
+	php-json \
+	php-mysql \
+	php-ldap \
+	php-opcache \
+	php-memcache \
+	php-intl \
 	memcached \
 	mariadb-server \
 	jetty9 \
@@ -92,8 +88,8 @@ COPY ./includes/misc/nginx/bluespice-ssl.conf /etc/nginx/sites-available/
 COPY ./includes/misc/nginx/fastcgi.conf /etc/nginx/
 COPY ./includes/misc/nginx/nginx.conf /etc/nginx/
 COPY ./includes/misc/nginx/nginx.conf /etc/nginx/
-COPY ./includes/misc/php/php.ini /etc/php/7.4/fpm/
-COPY ./includes/misc/php/www.conf /etc/php/7.4/fpm/pool.d/
+COPY ./includes/misc/php/php.ini /etc/php/8.1/fpm/
+COPY ./includes/misc/php/www.conf /etc/php/8.1/fpm/pool.d/
 COPY ./includes/misc/php/opcache.blacklist /etc/php/opcache.blacklist
 COPY --from=bsbuild /opt/${BLUESPICE_DOCKER_FREE_BUILD} /opt/docker/pkg/
 RUN rm /etc/nginx/sites-enabled/* \
