@@ -35,21 +35,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 	cron \
 	logrotate \
 	nginx \
-	php7.4-fpm \
-	php7.4-xml \
-	php7.4-mbstring \
-	php7.4-curl \
 	unzip \
-	php7.4-zip \
-	php7.4-tidy \
-	php7.4-gd \
-	php7.4-cli \
-	php7.4-json \
-	php7.4-mysql \
-	php7.4-ldap \
-	php7.4-opcache \
-	php7.4-memcache \
-	php7.4-intl \
 	memcached \
 	mariadb-server \
 	jetty9 \
@@ -57,6 +43,19 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 	imagemagick \
 	poppler-utils \
 	ghostscript \
+	php8.2-fpm \
+	php8.2-xml \
+	php8.2-mbstring \
+	php8.2-curl \
+	php8.2-zip \
+	php8.2-tidy \
+	php8.2-gd \
+	php8.2-cli \
+	php8.2-mysql \
+	php8.2-ldap \
+	php8.2-opcache \
+	php8.2-memcache \
+	php8.2-intl \
  && mkdir -p /opt/docker/pkg \
  && cd /tmp \
  && dpkg -i /tmp/elasticsearch-oss-6.8.23.deb \
@@ -92,8 +91,8 @@ COPY ./includes/misc/nginx/bluespice-ssl.conf /etc/nginx/sites-available/
 COPY ./includes/misc/nginx/fastcgi.conf /etc/nginx/
 COPY ./includes/misc/nginx/nginx.conf /etc/nginx/
 COPY ./includes/misc/nginx/nginx.conf /etc/nginx/
-COPY ./includes/misc/php/php.ini /etc/php/7.4/fpm/
-COPY ./includes/misc/php/www.conf /etc/php/7.4/fpm/pool.d/
+COPY ./includes/misc/php/php.ini /etc/php/8.2/fpm/
+COPY ./includes/misc/php/www.conf /etc/php/8.2/fpm/pool.d/
 COPY ./includes/misc/php/opcache.blacklist /etc/php/opcache.blacklist
 COPY --from=bsbuild /opt/${BLUESPICE_DOCKER_FREE_BUILD} /opt/docker/pkg/
 RUN rm /etc/nginx/sites-enabled/* \

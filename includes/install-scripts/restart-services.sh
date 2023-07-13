@@ -10,6 +10,6 @@ echo "restarting jetty..." >>/dev/logs 2>&1
 service jetty9 start >>/dev/logs 2>&1
 echo "restarted jetty" >>/dev/logs 2>&1
 /etc/init.d/memcached restart >>/dev/logs 2>&1
-/etc/init.d/php7.4-fpm restart >>/dev/logs 2>&1
+/etc/init.d/php8.2-fpm restart >>/dev/logs 2>&1
 /etc/init.d/cron restart >>/dev/logs 2>&1
 /etc/init.d/nginx restart >>/dev/logs 2>&1
