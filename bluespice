@@ -118,7 +118,7 @@ def main():
         subprocess.call("docker system prune -f", shell=True)
     
     if args.logs:
-        subprocess.call(f'docker exec -ti {dk_container_id} sh -c "tail -f /dev/logs"', shell=True)
+        subprocess.call(f'docker exec -ti {dk_container_id} sh -c "tail -f /data/www/wiki.logs"', shell=True)
 
 
 if len(sys.argv) > 1:
