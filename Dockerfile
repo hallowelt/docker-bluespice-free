@@ -16,7 +16,6 @@ ENV BLUESPICE_DOCKER_FREE_BUILD=BlueSpice-free.zip
 ADD https://bluespice.com/filebase/bluespice-free/ /opt/${BLUESPICE_DOCKER_FREE_BUILD}
 ADD https://buildservice.bluespice.com/webservices/REL1_31/BShtml2PDF.war /tmp/
 ADD https://buildservice.bluespice.com/webservices/4.2.x/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
-ADD https://buildservice.bluespice.com/parsoid.zip /tmp/
 RUN apt-get -y --no-install-recommends install \
  bzip2 unzip \
  && cd /tmp \
@@ -25,9 +24,6 @@ RUN apt-get -y --no-install-recommends install \
  && chmod +x /usr/local/bin/phantomjs \
  && rm -rf /tmp/phantomjs-2.1.1-linux-x86_64 \
  && rm -rf /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2
-RUN cd /tmp && unzip -qq parsoid.zip
-COPY ./includes/misc/parsoid/config.yaml /tmp/parsoid/
-COPY ./includes/misc/parsoid/localsettings.js /tmp/parsoid/
 
 
 FROM main as bsbase
@@ -96,7 +92,6 @@ COPY ./includes/misc/nginx/bluespice-ssl.conf /etc/nginx/sites-available/
 COPY ./includes/misc/nginx/fastcgi.conf /etc/nginx/
 COPY ./includes/misc/nginx/nginx.conf /etc/nginx/
 COPY ./includes/misc/nginx/nginx.conf /etc/nginx/
-COPY ./includes/misc/parsoid/parsoid.initd /etc/init.d/parsoid
 COPY ./includes/misc/php/php.ini /etc/php/8.2/fpm/
 COPY ./includes/misc/php/www.conf /etc/php/8.2/fpm/pool.d/
 COPY ./includes/misc/php/opcache.blacklist /etc/php/opcache.blacklist
@@ -105,10 +100,8 @@ RUN rm /etc/nginx/sites-enabled/* \
  && ln -s /etc/nginx/sites-available/bluespice.conf /etc/nginx/sites-enabled/
 COPY ./includes/misc/pingback/pingback.js /opt/docker/
 COPY --from=bsbuild /usr/local/bin/phantomjs /usr/local/bin
-COPY --from=bsbuild /tmp/parsoid/ /usr/local/parsoid
 COPY --from=bsbuild /tmp/BShtml2PDF.war /var/lib/jetty9/webapps
 RUN chown jetty:adm /var/lib/jetty9/webapps/BShtml2PDF.war && echo "JAVA_OPTIONS=\"\-Xms512m -Xmx1024m -Djetty.home=127.0.0.1\"" >> /etc/default/jetty9; \
 	chown -Rf www-data:www-data /run/php
-RUN chmod +x /etc/init.d/parsoid
 
 ENTRYPOINT /opt/docker/install-scripts/init.sh
