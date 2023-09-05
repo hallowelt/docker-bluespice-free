@@ -14,8 +14,8 @@ ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BLUESPICE_DOCKER_FREE_BUILD=BlueSpice-free.zip
 ADD https://bluespice.com/filebase/bluespice-free/ /opt/${BLUESPICE_DOCKER_FREE_BUILD}
-ADD https://buildservice.bluespice.com/webservices/REL1_31/BShtml2PDF.war /tmp/
-ADD https://buildservice.bluespice.com/webservices/4.2.x/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
+ADD https://buildservice.bluespice.com/webservices/4.3.x/BShtml2PDF.war /tmp/
+ADD https://buildservice.bluespice.com/webservices/4.3.x/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
 RUN apt-get -y --no-install-recommends install \
  bzip2 unzip \
  && cd /tmp \
