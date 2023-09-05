@@ -6,10 +6,10 @@ sleep 2
 echo "."
 source $DOWNLOAD_WIKI_SCRIPT
 # setup mysql
-rm -Rf /data/mysql >>/data/www/wiki.logs 2>&1
-rm -Rf /var/lib/mysql >>/data/www/wiki.logs 2>&1
-/usr/bin/mysql_install_db --force --datadir=/data/mysql >>/data/www/wiki.logs 2>&1
-ln -s /data/mysql /var/lib/mysql >>/data/www/wiki.logs 2>&1
+rm -Rf /data/mysql >>/data/logs/wiki.logs 2>&1
+rm -Rf /var/lib/mysql >>/data/logs/wiki.logs 2>&1
+/usr/bin/mysql_install_db --force --datadir=/data/mysql >>/data/logs/wiki.logs 2>&1
+ln -s /data/mysql /var/lib/mysql >>/data/logs/wiki.logs 2>&1
 source $START_SERVICES_SCRIPT
 
 if [ -z $BS_DB_PASSWORD ]; then
@@ -52,18 +52,18 @@ else
     BS_PORT=$HTTP_PORT
 fi
 
-/usr/bin/php /data/www/bluespice/w/maintenance/install.php --confpath=/data/www/bluespice/w --dbname=bluespice --dbuser=bluespice --dbpass=${BS_DB_PASSWORD} --dbserver=127.0.0.1 --lang=${BS_LANG} --pass=${BS_PASSWORD} --scriptpath=/w --server=${BS_URL}:${BS_PORT} "${BS_NAME}" $BS_USER >>/data/www/wiki.logs 2>&1
+/usr/bin/php /data/www/bluespice/w/maintenance/install.php --confpath=/data/www/bluespice/w --dbname=bluespice --dbuser=bluespice --dbpass=${BS_DB_PASSWORD} --dbserver=127.0.0.1 --lang=${BS_LANG} --pass=${BS_PASSWORD} --scriptpath=/w --server=${BS_URL}:${BS_PORT} "${BS_NAME}" $BS_USER >>/data/logs/wiki.logs 2>&1
 
-echo "copying bluespice foundation data and config folders..." >>/data/www/wiki.logs 2>&1
-mkdir -p /data/www/bluespice/w/extensions/BlueSpiceFoundation/data >>/data/www/wiki.logs 2>&1
-mkdir -p /data/www/bluespice/w/extensions/BlueSpiceFoundation/config >>/data/www/wiki.logs 2>&1
-cp -r /data/www/bluespice/w/extensions/BlueSpiceFoundation/config.template/. /data/www/bluespice/w/extensions/BlueSpiceFoundation/config/ >>/data/www/wiki.logs 2>&1
-cp -r /data/www/bluespice/w/extensions/BlueSpiceFoundation/data.template/. /data/www/bluespice/w/extensions/BlueSpiceFoundation/data/ >>/data/www/wiki.logs 2>&1
-echo "copied bluespice foundation data and config folders" >>/data/www/wiki.logs 2>&1
-/usr/bin/php /data/www/bluespice/w/maintenance/update.php --quick >>/data/www/wiki.logs 2>&1
-/usr/bin/php /data/www/bluespice/w/maintenance/createAndPromote.php --force --sysop "$BS_USER" "$BS_PASSWORD" >>/data/www/wiki.logs 2>&1 &
+echo "copying bluespice foundation data and config folders..." >>/data/logs/wiki.logs 2>&1
+mkdir -p /data/www/bluespice/w/extensions/BlueSpiceFoundation/data >>/data/logs/wiki.logs 2>&1
+mkdir -p /data/www/bluespice/w/extensions/BlueSpiceFoundation/config >>/data/logs/wiki.logs 2>&1
+cp -r /data/www/bluespice/w/extensions/BlueSpiceFoundation/config.template/. /data/www/bluespice/w/extensions/BlueSpiceFoundation/config/ >>/data/logs/wiki.logs 2>&1
+cp -r /data/www/bluespice/w/extensions/BlueSpiceFoundation/data.template/. /data/www/bluespice/w/extensions/BlueSpiceFoundation/data/ >>/data/logs/wiki.logs 2>&1
+echo "copied bluespice foundation data and config folders" >>/data/logs/wiki.logs 2>&1
+/usr/bin/php /data/www/bluespice/w/maintenance/update.php --quick >>/data/logs/wiki.logs 2>&1
+/usr/bin/php /data/www/bluespice/w/maintenance/createAndPromote.php --force --sysop "$BS_USER" "$BS_PASSWORD" >>/data/logs/wiki.logs 2>&1 &
 chown -Rf www-data:www-data /opt/docker/bluespice-data
 chown www-data:www-data /data/www/bluespice
-/usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/initBackends.php --quick >>/data/www/wiki.logs 2>&1
-/usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/rebuildIndex.php --quick >>/data/www/wiki.logs 2>&1
-/usr/bin/php /data/www/bluespice/w/maintenance/runJobs.php --memory-limit=max --maxjobs=50 >>/data/www/wiki.logs 2>&1
+/usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/initBackends.php --quick >>/data/logs/wiki.logs 2>&1
+/usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/rebuildIndex.php --quick >>/data/logs/wiki.logs 2>&1
+/usr/bin/php /data/www/bluespice/w/maintenance/runJobs.php --memory-limit=max --maxjobs=50 >>/data/logs/wiki.logs 2>&1
