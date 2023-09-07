@@ -19,7 +19,7 @@ if [ -z $BS_LANG ]; then
     BS_LANG="en"
 fi
 if [ -z $BS_URL ]; then
-    BS_URL="http://localhost"
+    BS_URL="http://127.0.0.1"
 fi
 if [ -z $BS_USER ]; then
     BS_USER="WikiSysop"
@@ -40,7 +40,7 @@ sleep 5
 if [ -f "/data/cert/ssl.cert" ] && [ -f "/data/cert/ssl.key" ]; then
     sed -i "s/{CERTFILE}/\/data\/cert\/ssl.cert/g" /etc/nginx/sites-available/bluespice-ssl.conf
     sed -i "s/{KEYFILE}/\/data\/cert\/ssl.key/g" /etc/nginx/sites-available/bluespice-ssl.conf
-    rm /etc/nginx/sites-enabled/bluespice.conf
+    rm -f /etc/nginx/sites-enabled/bluespice.conf
     ln -s /etc/nginx/sites-available/bluespice-ssl.conf /etc/nginx/sites-enabled/
 fi
 echo ".."

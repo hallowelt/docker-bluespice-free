@@ -30,6 +30,6 @@ chown www-data:www-data /data/www/bluespice
 if [ -f "/data/cert/ssl.cert" ] && [ -f "/data/cert/ssl.key" ]; then
     sed -i "s/{CERTFILE}/\/data\/cert\/ssl.cert/g" /etc/nginx/sites-available/bluespice-ssl.conf
     sed -i "s/{KEYFILE}/\/data\/cert\/ssl.key/g" /etc/nginx/sites-available/bluespice-ssl.conf
-    rm /etc/nginx/sites-enabled/bluespice.conf
+    rm -f /etc/nginx/sites-enabled/bluespice.conf
     ln -s /etc/nginx/sites-available/bluespice-ssl.conf /etc/nginx/sites-enabled/
 fi

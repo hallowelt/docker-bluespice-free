@@ -49,15 +49,15 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
       ```
     - Build docker image:
       ```bash
-      docker build -t $IMAGE_NAME:$IMAGE_TAG .
+      docker build -t $IMAGE_NAME:$IMAGE_TAG --build-arg HTTP_PORT=$HTTP_PORT --build-arg HTTPS_PORT=$HTTPS_PORT .
       ```
       Note: If the data folder is inside the project dir, then also add this path in the .dockerignore
     - Create and run docker container:
       ```bash
       docker run \
       --env-file ./.env \
-      -p $HTTP_PORT:80 \
-      -p $HTTPS_PORT:443 \
+      -p $HTTP_PORT:$HTTP_PORT \
+      -p $HTTPS_PORT:$HTTPS_PORT \
       -v $WIKI_INSTALL_DIR:/data \
       -d $IMAGE_NAME:$IMAGE_TAG
       ```
