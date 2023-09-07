@@ -75,6 +75,8 @@ FROM bsbase
 ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BLUESPICE_DOCKER_FREE_BUILD=BlueSpice-free.zip
+ARG HTTP_PORT=80
+ARG HTTPS_PORT=443
 COPY ./includes/install-scripts /opt/docker/install-scripts
 COPY ./includes/misc/scripts/setwikiperm.sh /opt/docker/
 RUN chmod a+x /opt/docker/*.sh /opt/docker/install-scripts/*.sh \
@@ -98,6 +100,17 @@ COPY ./includes/misc/php/opcache.blacklist /etc/php/opcache.blacklist
 COPY --from=bsbuild /opt/${BLUESPICE_DOCKER_FREE_BUILD} /opt/docker/pkg/
 RUN rm /etc/nginx/sites-enabled/* \
  && ln -s /etc/nginx/sites-available/bluespice.conf /etc/nginx/sites-enabled/
+
+# update nginx settings for bluespice.conf
+RUN sed -i "s/listen [0-9]\+;/listen $HTTP_PORT;/g" /etc/nginx/sites-available/bluespice.conf && \
+	sed -i "s/return 301 http:\/\/\$host\/wiki\$request_uri;/return 301 http:\/\/\$host:$HTTP_PORT\/wiki\$request_uri;/g" /etc/nginx/sites-available/bluespice.conf
+
+
+# update nginx settings for bluespice-ssl.conf
+RUN sed -i "s/listen [0-9]\+;/listen $HTTP_PORT;/g" /etc/nginx/sites-available/bluespice-ssl.conf && \
+	sed -i "s/listen [0-9]\+ ssl http2;/listen $HTTPS_PORT ssl http2;/g" /etc/nginx/sites-available/bluespice-ssl.conf && \
+	sed -i "s/return 301 http:\/\/\$host\/wiki\$request_uri;/return 301 http:\/\/\$host:$HTTP_PORT\/wiki\$request_uri;/g" /etc/nginx/sites-available/bluespice-ssl.conf
+
 COPY ./includes/misc/pingback/pingback.js /opt/docker/
 COPY --from=bsbuild /usr/local/bin/phantomjs /usr/local/bin
 COPY --from=bsbuild /tmp/BShtml2PDF.war /var/lib/jetty9/webapps
