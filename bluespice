@@ -94,6 +94,10 @@ def main():
         subprocess.call(stop_cmd, shell=True)
 
     if args.build:
+        # if file _codebase/BlueSpice-free.zip is missing, download it
+        if not os.path.isfile("_codebase/BlueSpice-free.zip"):
+            print("downloading BlueSpice-free.zip")
+            subprocess.call( "wget -O _codebase/BlueSpice-free.zip https://bluespice.com/filebase/bluespice-free/" )
         subprocess.call(f"docker build . -t {dk_image_name}", shell=True)
         subprocess.call("docker system prune -f", shell=True)
 
