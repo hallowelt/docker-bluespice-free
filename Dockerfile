@@ -41,7 +41,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 	memcached \
 	mariadb-server \
 	jetty9 \
-	nodejs \
 	imagemagick \
 	poppler-utils \
 	ghostscript \
