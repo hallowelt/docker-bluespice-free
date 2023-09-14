@@ -14,23 +14,22 @@ ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BLUESPICE_DOCKER_FREE_BUILD=BlueSpice-free.zip
 COPY _codebase/${BLUESPICE_DOCKER_FREE_BUILD} /opt/${BLUESPICE_DOCKER_FREE_BUILD}
-ADD https://buildservice.bluespice.com/webservices/4.3.x/BShtml2PDF.war /tmp/
+# We need to use `4.2.x` for now, as `4.3.x` is not compatible to Jetty9
+ADD https://buildservice.bluespice.com/webservices/4.2.x/BShtml2PDF.war /tmp/
 ADD https://buildservice.bluespice.com/webservices/4.3.x/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
-RUN apt-get -y --no-install-recommends install \
- bzip2 unzip \
- && cd /tmp \
+RUN cd /tmp \
  && tar xjf phantomjs-2.1.1-linux-x86_64.tar.bz2 \
  && mv /tmp/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin \
  && chmod +x /usr/local/bin/phantomjs \
  && rm -rf /tmp/phantomjs-2.1.1-linux-x86_64 \
  && rm -rf /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2
 
-
 FROM main as bsbase
 ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
 ADD https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-oss-6.8.23.deb /tmp/
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+ && apt-get update \
  && apt-get -y --no-install-recommends install \
 	python3 \
 	cron \
@@ -40,7 +39,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 	memcached \
 	mariadb-server \
 	jetty9 \
-	nodejs \
 	imagemagick \
 	poppler-utils \
 	ghostscript \
@@ -49,11 +47,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 	php8.2-mbstring \
 	php8.2-curl \
 	php8.2-zip \
-	php8.2-tidy \
 	php8.2-gd \
 	php8.2-cli \
 	php8.2-mysql \
-	php8.2-ldap \
 	php8.2-opcache \
 	php8.2-memcache \
 	php8.2-intl \

@@ -73,7 +73,8 @@ docker_run_cmd = f'docker run \
     -p {os.getenv("HTTP_PORT")}:80 \
     -p {os.getenv("HTTPS_PORT")}:443 \
     -v {os.getenv("WIKI_INSTALL_DIR")}:/data \
-    -d "{dk_image_name}"'
+    -d "{dk_image_name}" \
+    bluespice-free'
 
 
 @timeit

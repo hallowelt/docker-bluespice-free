@@ -60,6 +60,7 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
       -p $HTTPS_PORT:$HTTPS_PORT \
       -v $WIKI_INSTALL_DIR:/data \
       -d $IMAGE_NAME:$IMAGE_TAG
+      bluespice-free
       ```
 2. Using bluespice cli:
    Quickly setup bluespice mediawiki on your system using followng steps:
