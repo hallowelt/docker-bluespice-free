@@ -50,11 +50,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 	php8.2-mbstring \
 	php8.2-curl \
 	php8.2-zip \
-	php8.2-tidy \
 	php8.2-gd \
 	php8.2-cli \
 	php8.2-mysql \
-	php8.2-ldap \
 	php8.2-opcache \
 	php8.2-memcache \
 	php8.2-intl \
