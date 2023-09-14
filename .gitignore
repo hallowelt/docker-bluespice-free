@@ -7,3 +7,5 @@ bs_venv/
 *.bz2
 .vscode/
 wiki/
+_codebase/*
+!_codebase/.gitkeep

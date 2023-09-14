@@ -13,7 +13,7 @@ FROM main as bsbuild
 ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BLUESPICE_DOCKER_FREE_BUILD=BlueSpice-free.zip
-ADD https://bluespice.com/filebase/bluespice-free/ /opt/${BLUESPICE_DOCKER_FREE_BUILD}
+COPY _codebase/${BLUESPICE_DOCKER_FREE_BUILD} /opt/${BLUESPICE_DOCKER_FREE_BUILD}
 # We need to use `4.2.x` for now, as `4.3.x` is not compatible to Jetty9
 ADD https://buildservice.bluespice.com/webservices/4.2.x/BShtml2PDF.war /tmp/
 ADD https://buildservice.bluespice.com/webservices/4.3.x/phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/
