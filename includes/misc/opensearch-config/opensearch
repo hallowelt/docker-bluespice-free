@@ -1,0 +1,45 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          opensearch
+# Required-Start:    $network $remote_fs $syslog
+# Required-Stop:     $network $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start Opensearch at boot time
+# Description:       Opensearch is an open-source search engine.
+### END INIT INFO
+
+# Adjust these variables
+OPENSEARCH_HOME=/opt/opensearch
+OPENSEARCH_BIN=$OPENSEARCH_HOME/bin/opensearch
+OPENSEARCH_USER=opensearch
+
+case "$1" in
+  start)
+    echo "Starting Opensearch..."
+    su -s /bin/bash -c "$OPENSEARCH_BIN -d &" $OPENSEARCH_USER
+    ;;
+  stop)
+    echo "Stopping Opensearch..."
+    pkill -f "java.*opensearch"
+    ;;
+  restart)
+    $0 stop
+    sleep 5
+    $0 start
+    ;;
+  status)
+    pgrep -f "java.*opensearch" > /dev/null
+    if [ $? -eq 0 ]; then
+      echo "Opensearch is running."
+    else
+      echo "Opensearch is not running."
+    fi
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|status}"
+    exit 1
+    ;;
+esac
+
+exit 0

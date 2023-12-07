@@ -2,12 +2,6 @@
 
 mkdir -p /data/logs/
 
-# set opensearch files/folders permissions
-chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
-chown -R elasticsearch:elasticsearch /var/lib/elasticsearch
-chown -R elasticsearch:elasticsearch /etc/elasticsearch
-chown -R elasticsearch:elasticsearch /var/log/elasticsearch
-
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 FRESH_INSTALL_SCRIPT=$SCRIPT_DIR/fresh-install.sh
 RESTORE_DATA_SCRIPT=$SCRIPT_DIR/restore-wiki-data.sh
@@ -15,6 +9,32 @@ DOWNLOAD_WIKI_SCRIPT=$SCRIPT_DIR/download-wiki.sh
 START_SERVICES_SCRIPT=$SCRIPT_DIR/start-services.sh
 RESTART_SERVICES_SCRIPT=$SCRIPT_DIR/restart-services.sh
 CLEANUP_SCRIPT=$SCRIPT_DIR/cleanup.sh
+
+# setup opensearch
+if [ ! -f "/opt/opensearch/bin/opensearch" ]; then
+	curl -O https://artifacts.opensearch.org/releases/bundle/opensearch/2.11.0/opensearch-2.11.0-linux-x64.tar.gz
+	mkdir -p /opt/opensearch
+	tar -zxvf opensearch-2.11.0-linux-x64.tar.gz -C /opt/opensearch --strip-components=1
+	rm opensearch-2.11.0-linux-x64.tar.gz
+	mv /opt/opensearch.yml /opt/opensearch/config/opensearch.yml
+	groupadd opensearch
+    useradd -m -g opensearch opensearch
+    echo 'opensearch:password' | chpasswd
+	usermod -aG sudo opensearch
+	chown -R opensearch:opensearch /opt/opensearch
+	/opt/opensearch/bin/opensearch-plugin install ingest-attachment --batch
+	chown -R opensearch:opensearch /opt/opensearch
+fi
+
+# start opensearch service
+service opensearch restart
+echo "WAITING FOR 60 SECONDS BECAUSE OPENSEARCH NEEDS SOME TIME TO REALLY COME UP..."
+secs=$((60))
+while [ $secs -gt 0 ]; do
+	echo -ne "..... $secs\033[0K\r"
+	sleep 1
+	: $((secs--))
+done
 
 date=$(date +%Y%m%d%H%M%S)
 if [ -f "/opt/docker/.firstrun" ]; then
@@ -28,7 +48,6 @@ if [ -f "/opt/docker/.firstrun" ]; then
     # else handle reinstall
     else
         echo "Old installation detected! Moving old installation to /data/backups/$date"
-        /etc/init.d/elasticsearch start >> /data/logs/wiki.logs 2>&1
         /etc/init.d/memcached start >> /data/logs/wiki.logs 2>&1
         sleep 20
         chown -Rf mysql:mysql /data/mysql
