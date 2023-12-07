@@ -27,7 +27,6 @@ RUN cd /tmp \
 FROM main as bsbase
 ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
-ADD https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-oss-6.8.23.deb /tmp/
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && apt-get update \
  && apt-get -y --no-install-recommends install \
@@ -54,9 +53,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 	php8.2-memcache \
 	php8.2-intl \
  && mkdir -p /opt/docker/pkg \
- && cd /tmp \
- && dpkg -i /tmp/elasticsearch-oss-6.8.23.deb \
- && /usr/share/elasticsearch/bin/elasticsearch-plugin install -b ingest-attachment \
  && mkdir -p /var/run/memcached \
  && mkdir -p /run/php \
  && apt-get -y auto-remove \
@@ -93,14 +89,16 @@ COPY ./includes/misc/nginx/nginx.conf /etc/nginx/
 COPY ./includes/misc/php/php.ini /etc/php/8.2/fpm/
 COPY ./includes/misc/php/www.conf /etc/php/8.2/fpm/pool.d/
 COPY ./includes/misc/php/opcache.blacklist /etc/php/opcache.blacklist
+COPY ./includes/misc/opensearch-config/opensearch /etc/init.d/opensearch
+COPY ./includes/misc/opensearch-config/opensearch.yml /opt/opensearch.yml
 COPY --from=bsbuild /opt/${BLUESPICE_DOCKER_FREE_BUILD} /opt/docker/pkg/
 RUN rm /etc/nginx/sites-enabled/* \
- && ln -s /etc/nginx/sites-available/bluespice.conf /etc/nginx/sites-enabled/
+	&& ln -s /etc/nginx/sites-available/bluespice.conf /etc/nginx/sites-enabled/ \
+	&& chmod +x /etc/init.d/opensearch
 
 # update nginx settings for bluespice.conf
 RUN sed -i "s/listen [0-9]\+;/listen $HTTP_PORT;/g" /etc/nginx/sites-available/bluespice.conf && \
 	sed -i "s/return 301 http:\/\/\$host\/wiki\$request_uri;/return 301 http:\/\/\$host:$HTTP_PORT\/wiki\$request_uri;/g" /etc/nginx/sites-available/bluespice.conf
-
 
 # update nginx settings for bluespice-ssl.conf
 RUN sed -i "s/listen [0-9]\+;/listen $HTTP_PORT;/g" /etc/nginx/sites-available/bluespice-ssl.conf && \

@@ -1,0 +1,9 @@
+cluster.name: os-cluster
+network.host: 0.0.0.0
+cluster.routing.allocation.disk.threshold_enabled: true
+cluster.routing.allocation.disk.watermark.low: 93%
+cluster.routing.allocation.disk.watermark.high: 95%
+node.name: localhost
+discovery.seed_hosts: localhost
+cluster.initial_master_nodes: localhost
+plugins.security.disabled: true

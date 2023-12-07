@@ -2,7 +2,7 @@
 
 echo "Extracting the new BlueSpice"
 mkdir -p /data/www
-build_file=opt/docker/pkg/$BLUESPICE_DOCKER_FREE_BUILD
+build_file=/opt/docker/pkg/$BLUESPICE_DOCKER_FREE_BUILD
 
 if [[ $build_file == *.tar.gz ]]; then
     tar -xf $build_file --directory /data/www >>/data/logs/wiki.logs 2>&1
