@@ -57,11 +57,10 @@ fi
 echo "copying bluespice foundation data and config folders..." >>/data/logs/wiki.logs 2>&1
 mkdir -p /data/www/bluespice/w/extensions/BlueSpiceFoundation/data >>/data/logs/wiki.logs 2>&1
 mkdir -p /data/www/bluespice/w/extensions/BlueSpiceFoundation/config >>/data/logs/wiki.logs 2>&1
-cp -r /data/www/bluespice/w/extensions/BlueSpiceFoundation/config.template/. /data/www/bluespice/w/extensions/BlueSpiceFoundation/config/ >>/data/logs/wiki.logs 2>&1
 cp -r /data/www/bluespice/w/extensions/BlueSpiceFoundation/data.template/. /data/www/bluespice/w/extensions/BlueSpiceFoundation/data/ >>/data/logs/wiki.logs 2>&1
 echo "copied bluespice foundation data and config folders" >>/data/logs/wiki.logs 2>&1
 /usr/bin/php /data/www/bluespice/w/maintenance/update.php --quick >>/data/logs/wiki.logs 2>&1
-/usr/bin/php /data/www/bluespice/w/maintenance/createAndPromote.php --force --sysop "$BS_USER" "$BS_PASSWORD" >>/data/logs/wiki.logs 2>&1 &
+/usr/bin/php /data/www/bluespice/w/maintenance/createAndPromote.php --force --sysop "$BS_USER" "$BS_PASSWORD" >>/data/logs/wiki.logs 2>&1
 chown -Rf www-data:www-data /opt/docker/bluespice-data
 chown www-data:www-data /data/www/bluespice
 /usr/bin/php /data/www/bluespice/w/extensions/BlueSpiceExtendedSearch/maintenance/initBackends.php --quick >>/data/logs/wiki.logs 2>&1
