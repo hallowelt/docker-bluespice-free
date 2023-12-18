@@ -96,12 +96,12 @@ def main():
 
     if args.build:
         # if file _codebase/BlueSpice-free.zip is missing, download it
-        if not os.path.isfile("_codebase/BlueSpice-free.zip"):
-            print("downloading BlueSpice-free.zip")
-            subprocess.call( "wget -O _codebase/BlueSpice-free.zip https://bluespice.com/filebase/bluespice-free/" )
+        zip_file_path = "_codebase/BlueSpice-free.zip"
+        if not os.path.isfile(zip_file_path):
+            print("Downloading BlueSpice-free.zip")
+            subprocess.call(["wget", "-O", zip_file_path, "https://bluespice.com/filebase/bluespice-free/"])
+        print("Building docker image")
         subprocess.call(f"docker build . -t {dk_image_name}", shell=True)
-        subprocess.call("docker system prune -f", shell=True)
-
 
     if args.start:
         match_string = "not exist"
@@ -112,11 +112,12 @@ def main():
             check_container, shell=True, capture_output=True, text=True
         )
         if "not exist" not in output.stdout:
-            print(f"found built container, starting it")
+            print(f"Found built container, starting it")
             start_cmd = f"docker start {dk_container_id}"
             subprocess.call(start_cmd, shell=True)
         else:
-            print(f"creating new container: {dk_image_name}")
+            print(f"Creating new container: {dk_image_name}")
+            print(f"If starting this for the first time, it might take few minutes to setup opensearch, see container logs for more detail")
             subprocess.call(docker_run_cmd, shell=True)
 
     if args.clean_dangling:
