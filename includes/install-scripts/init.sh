@@ -12,18 +12,18 @@ CLEANUP_SCRIPT=$SCRIPT_DIR/cleanup.sh
 
 # setup opensearch
 if [ ! -f "/opt/opensearch/bin/opensearch" ]; then
-	curl -O https://artifacts.opensearch.org/releases/bundle/opensearch/2.11.0/opensearch-2.11.0-linux-x64.tar.gz
-	mkdir -p /opt/opensearch
-	tar -zxvf opensearch-2.11.0-linux-x64.tar.gz -C /opt/opensearch --strip-components=1
-	rm opensearch-2.11.0-linux-x64.tar.gz
-	mv /opt/opensearch.yml /opt/opensearch/config/opensearch.yml
-	groupadd opensearch
-    useradd -m -g opensearch opensearch
-    echo 'opensearch:password' | chpasswd
-	usermod -aG sudo opensearch
-	chown -R opensearch:opensearch /opt/opensearch
-	/opt/opensearch/bin/opensearch-plugin install ingest-attachment --batch
-	chown -R opensearch:opensearch /opt/opensearch
+	curl -O https://artifacts.opensearch.org/releases/bundle/opensearch/2.11.0/opensearch-2.11.0-linux-x64.tar.gz >>/data/logs/wiki.logs 2>&1
+	mkdir -p /opt/opensearch >>/data/logs/wiki.logs 2>&1
+	tar -zxvf opensearch-2.11.0-linux-x64.tar.gz -C /opt/opensearch --strip-components=1 >>/data/logs/wiki.logs 2>&1
+	rm opensearch-2.11.0-linux-x64.tar.gz >>/data/logs/wiki.logs 2>&1
+	mv /opt/opensearch.yml /opt/opensearch/config/opensearch.yml >>/data/logs/wiki.logs 2>&1
+	groupadd opensearch >>/data/logs/wiki.logs 2>&1
+    useradd -m -g opensearch opensearch >>/data/logs/wiki.logs 2>&1
+    echo 'opensearch:password' | chpasswd >>/data/logs/wiki.logs 2>&1
+	usermod -aG sudo opensearch >>/data/logs/wiki.logs 2>&1
+	chown -R opensearch:opensearch /opt/opensearch >>/data/logs/wiki.logs 2>&1
+	/opt/opensearch/bin/opensearch-plugin install ingest-attachment --batch >>/data/logs/wiki.logs 2>&1
+	chown -R opensearch:opensearch /opt/opensearch >>/data/logs/wiki.logs 2>&1
 fi
 
 # start opensearch service
