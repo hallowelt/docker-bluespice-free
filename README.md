@@ -47,6 +47,10 @@ This <a href="https://github.com/hallowelt/docker-bluespice-free">docker-bluespi
       ```bash
       export $(grep -v '^#' ./.env | xargs)
       ```
+    - Set java memory option:
+      ```bash
+      sudo sysctl -w vm.max_map_count=262144
+      ```
     - Build docker image:
       ```bash
       docker build -t $IMAGE_NAME:$IMAGE_TAG --build-arg HTTP_PORT=$HTTP_PORT --build-arg HTTPS_PORT=$HTTPS_PORT .
