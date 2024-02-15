@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "81:80"
+    volumes:
+      - ./dockerData:/data
